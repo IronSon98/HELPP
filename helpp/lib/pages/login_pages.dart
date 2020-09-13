@@ -1,7 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:helpp/widgets/app_button.dart';
+import 'package:helpp/widgets/app_text.dart';
 
+class LoginPage extends StatefulWidget {
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
 
-class LoginPage extends StatelessWidget {
+class _LoginPageState extends State<LoginPage> {
+  final _formKey = GlobalKey<FormState>();
+
+  final _tCPF = TextEditingController();
+  final _tSenha =  TextEditingController();
+
+  final _focusSenha = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,62 +31,66 @@ class LoginPage extends StatelessWidget {
   }
 
   _body() {
-    return Container (
-      padding: EdgeInsets.all(16),
-      child: ListView(
-        children: <Widget>[
-          TextFormField(
-            style: TextStyle(
-              fontSize: 15,
-              color: Colors.black
+    return Form(
+      key: _formKey,
+      child: Container (
+        padding: EdgeInsets.all(16),
+        child: ListView(
+          children: <Widget>[
+
+            AppText("CPF", 
+            "Digite o seu CPF", 
+            controller: _tCPF, 
+            validator: _validarCPF, 
+            keyboardType: TextInputType.number, 
+            textInputAction: TextInputAction.next, 
+            nextFocus: _focusSenha),
+            SizedBox(height: 18,),
+
+            AppText("SENHA", 
+            "Digite sua senha", 
+            password: true, 
+            controller: _tSenha, 
+            validator: _validarSenha, 
+            focusNode: _focusSenha),
+            SizedBox(height: 20,),
+
+            AppButton(
+              "ACESSAR", 
+              onPressed: _onClickLogin,
             ),
-            decoration: InputDecoration(
-              labelText: "CPF",
-              labelStyle: TextStyle(
-                fontSize: 20,
-                color: Colors.blue
-              ),
-              hintText: "Digite o seu CPF",
-              hintStyle: TextStyle(
-                color: Colors.grey
-              )
-            ),
-          ),
-          SizedBox(height: 18,),
-          TextFormField(
-            style: TextStyle(
-              fontSize: 15,
-              color: Colors.black
-            ),
-            decoration: InputDecoration(
-              labelText: "SENHA",
-              labelStyle: TextStyle(
-                fontSize: 18,
-                color: Colors.blue
-              ),
-              hintText: "Digite sua senha",
-              hintStyle: TextStyle(
-                color: Colors.grey
-              )
-            ),
-          ),
-          SizedBox(height: 20,),
-          Container(
-            height:46,
-            child: RaisedButton(
-              color: Colors.blue,
-              child: Text(
-                "ACESSAR",
-                style: TextStyle(
-                  color: Colors.white, 
-                  fontSize: 20
-                ),
-              ),
-              onPressed: () {},
-            ),
-          )
-        ]
-      )
+          ],
+        ),
+      ),
     );
   }
+
+  void _onClickLogin() {
+    bool formOk = _formKey.currentState.validate();
+    if(!formOk) {
+      return;
+    }
+
+    String cpf = _tCPF.text;
+    String senha = _tSenha.text;
+
+    print("CPF: $cpf, Senha: $senha");
+  }
+
+  String _validarCPF(String cpf) {
+    if(cpf.isEmpty) {
+      return "Digite o seu CPF";
+    }
+    if(cpf.length != 11) {
+      return "CPF incorreto";
+    }
+    return null;
+  } 
+
+   String _validarSenha(String senha) {
+    if(senha.isEmpty) {
+      return "Digite sua senha";
+    }
+    return null;
+  } 
 }
