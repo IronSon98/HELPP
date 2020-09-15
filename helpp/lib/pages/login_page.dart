@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:helpp/pages/home_page.dart';
+import 'package:helpp/pages/login_api.dart';
 import 'package:helpp/widgets/app_button.dart';
 import 'package:helpp/widgets/app_text.dart';
+import 'package:helpp/utils/nav.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -65,7 +68,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void _onClickLogin() {
+  void _onClickLogin() async {
     bool formOk = _formKey.currentState.validate();
     if(!formOk) {
       return;
@@ -75,6 +78,15 @@ class _LoginPageState extends State<LoginPage> {
     String senha = _tSenha.text;
 
     print("CPF: $cpf, Senha: $senha");
+
+    bool loginAceito = await LoginApi.login(cpf, senha);
+
+    if(loginAceito) {
+      push(context, HomePage());
+    } else {
+      print("Login incorreto!");
+    }
+    
   }
 
   String _validarCPF(String cpf) {
