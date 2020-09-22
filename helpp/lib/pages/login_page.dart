@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:helpp/pages/home_page.dart';
 import 'package:helpp/pages/login_api.dart';
+import 'package:helpp/pages/register_page.dart';
 import 'package:helpp/widgets/app_button.dart';
 import 'package:helpp/widgets/app_text.dart';
 import 'package:helpp/utils/nav.dart';
@@ -44,6 +45,7 @@ class _LoginPageState extends State<LoginPage> {
             AppText("CPF", 
             "Digite o seu CPF", 
             controller: _tCPF, 
+            sizeText: 20,
             validator: _validarCPF, 
             keyboardType: TextInputType.number, 
             textInputAction: TextInputAction.next, 
@@ -54,6 +56,7 @@ class _LoginPageState extends State<LoginPage> {
             "Digite sua senha", 
             password: true, 
             controller: _tSenha, 
+            sizeText: 20,
             validator: _validarSenha, 
             focusNode: _focusSenha),
             SizedBox(height: 20,),
@@ -62,6 +65,12 @@ class _LoginPageState extends State<LoginPage> {
               "ACESSAR", 
               onPressed: _onClickLogin,
             ),
+            SizedBox(height: 20,),
+
+            AppButton(
+              "CADASTRAR",
+              onPressed: _onClickRegister,
+            )
           ],
         ),
       ),
@@ -87,6 +96,12 @@ class _LoginPageState extends State<LoginPage> {
       print("Login incorreto!");
     }
     
+  }
+
+  void _onClickRegister() async {
+
+    push(context, RegisterPage());
+
   }
 
   String _validarCPF(String cpf) {

@@ -5,6 +5,7 @@ class AppText extends StatelessWidget {
   String hint;
   bool password;
   TextEditingController controller;
+  double sizeText;
   FormFieldValidator<String> validator; 
   TextInputType keyboardType;
   TextInputAction textInputAction;
@@ -15,7 +16,8 @@ class AppText extends StatelessWidget {
     this.label, 
     this.hint, {
     this.password = false, 
-    this.controller, 
+    this.controller,
+    this.sizeText, 
     this.validator, 
     this.keyboardType, 
     this.textInputAction, 
@@ -25,7 +27,7 @@ class AppText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
+    var textFormField = TextFormField(
       controller: controller,
       obscureText: password,
       validator: validator,
@@ -44,7 +46,7 @@ class AppText extends StatelessWidget {
       decoration: InputDecoration(
         labelText: label,
         labelStyle: TextStyle(
-          fontSize: 20,
+          fontSize: sizeText,
           color: Colors.blue,
         ),
         hintText: hint,
@@ -52,6 +54,7 @@ class AppText extends StatelessWidget {
           color: Colors.grey,
         ),
       ),
-    ); 
+    );
+    return textFormField; 
   }
 }
