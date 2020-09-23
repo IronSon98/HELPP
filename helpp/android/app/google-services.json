@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "197845686534",
+    "firebase_url": "https://helpp-fad1d.firebaseio.com",
+    "project_id": "helpp-fad1d",
+    "storage_bucket": "helpp-fad1d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:197845686534:android:6a3dffa5f51671af356687",
+        "android_client_info": {
+          "package_name": "com.example.helpp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "197845686534-uao37e91isc2ccqm7gilbvj8494f6r57.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.helpp",
+            "certificate_hash": "bceb06b55a22575adc38fbcf1a7604f6e1adb5f2"
+          }
+        },
+        {
+          "client_id": "197845686534-q4se4vvhkncej8v1q3jh6vl740re9n8i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-aBaOZE0EQjxFrcEfV9ymWtBNFiya4xU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "197845686534-q4se4vvhkncej8v1q3jh6vl740re9n8i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
