@@ -5,6 +5,7 @@ import 'package:helpp/pages/register_page.dart';
 import 'package:helpp/widgets/app_button.dart';
 import 'package:helpp/widgets/app_text.dart';
 import 'package:helpp/utils/nav.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -78,6 +79,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _onClickLogin() async {
+    // Validação do formulário
     bool formOk = _formKey.currentState.validate();
     if(!formOk) {
       return;
@@ -120,4 +122,19 @@ class _LoginPageState extends State<LoginPage> {
     }
     return null;
   } 
+
+  String _validarCadastro(String cpf, String senha) async {
+
+    Firestore db = Firestore.instance;
+    String msgRetorno;
+    bool validaCPF, validaSenha;
+
+    db.collection("users").snapshots().listen( // Verifica se tem alguma alteração no banco de dados e atualiza
+      (snapshot) {
+        for(DocumentSnapshot cadastro in snapshot.documents) {
+         var dados = cadastro.data; 
+        }
+       }
+    );
+  }
 }

@@ -3,6 +3,7 @@ import 'package:helpp/pages/login_page.dart';
 import 'package:helpp/widgets/app_button.dart';
 import 'package:helpp/widgets/app_text.dart';
 import 'package:helpp/utils/nav.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -85,6 +86,15 @@ class _RegisterPageState extends State<RegisterPage> {
             keyboardType: TextInputType.emailAddress,
             focusNode: _focusEmail,  
             textInputAction: TextInputAction.next, 
+            nextFocus: _focusTelefone),
+            SizedBox(height: 18,),
+
+            AppText("TELEFONE", 
+            "Digite um número de telefone para contato", 
+            controller: _tTelefone,
+            sizeText: 18,
+            focusNode: _focusTelefone,
+            textInputAction: TextInputAction.next, 
             nextFocus: _focusSenha),
             SizedBox(height: 18,),
 
@@ -94,16 +104,7 @@ class _RegisterPageState extends State<RegisterPage> {
             controller: _tSenha, 
             sizeText: 18,
             validator: _validarSenha,
-            focusNode: _focusSenha, 
-            textInputAction: TextInputAction.next, 
-            nextFocus: _focusTelefone),
-            SizedBox(height: 18,),
-
-            AppText("TELEFONE", 
-            "Digite um número de telefone para contato", 
-            controller: _tTelefone,
-            sizeText: 18,
-            focusNode: _focusTelefone),
+            focusNode: _focusSenha),
             SizedBox(height: 20,),
 
             AppButton(
@@ -117,6 +118,7 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   void _onClickRegister() async {
+    // Validação do formulário
     bool formOk = _formKey.currentState.validate();
     if(!formOk) {
       return;
@@ -126,13 +128,24 @@ class _RegisterPageState extends State<RegisterPage> {
     String cpf =  _tCPF.text;
     String idade = _tIdade.text;
     String email = _tEmail.text;
-    String senha = _tSenha.text;
     String telefone = _tTelefone.text;
+    String senha = _tSenha.text;
+    
+    Firestore db = Firestore.instance;
 
-    print("Nome: $nome, CPF: $cpf, Idade: $idade, E-mail: $email, Senha: $senha, Telefone: $telefone");
-
+    db.collection("users")
+    .document(cpf)
+    .setData(
+      {
+        "nome" : nome,
+        "idade" : idade,
+        "email" : email,
+        "telefone" : telefone,
+        "senha" : senha
+      }
+    );
   
-    push(context, LoginPage());
+    push(context, LoginPage()); //Chamada da página de login
     
   }
 
