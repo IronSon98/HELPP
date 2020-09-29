@@ -4,6 +4,7 @@ import 'package:helpp/widgets/app_button.dart';
 import 'package:helpp/widgets/app_text.dart';
 import 'package:helpp/utils/nav.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -144,6 +145,16 @@ class _RegisterPageState extends State<RegisterPage> {
         "senha" : senha
       }
     );
+
+    FirebaseAuth auth = FirebaseAuth.instance;
+
+    auth.createUserWithEmailAndPassword(
+      email: email, password: senha
+      ).then((firebaseUser){
+        print("Novo usuário cadastrado com sucesso! E-mail: " + firebaseUser.email);
+      }).catchError((erro){
+        print("Erro ao criar um novo usuário: " + erro.toString());
+      });
   
     push(context, LoginPage()); //Chamada da página de login
     

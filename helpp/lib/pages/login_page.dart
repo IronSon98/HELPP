@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:helpp/pages/home_page.dart';
-import 'package:helpp/pages/login_api.dart';
 import 'package:helpp/pages/register_page.dart';
 import 'package:helpp/widgets/app_button.dart';
 import 'package:helpp/widgets/app_text.dart';
 import 'package:helpp/utils/nav.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -15,7 +14,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
 
-  final _tCPF = TextEditingController();
+  final _tEmail = TextEditingController();
   final _tSenha =  TextEditingController();
 
   final _focusSenha = FocusNode();
@@ -43,12 +42,12 @@ class _LoginPageState extends State<LoginPage> {
         child: ListView(
           children: <Widget>[
 
-            AppText("CPF", 
-            "Digite o seu CPF", 
-            controller: _tCPF, 
+            AppText("E-MAIL", 
+            "Digite o seu e-mail", 
+            controller: _tEmail, 
             sizeText: 20,
-            validator: _validarCPF, 
-            keyboardType: TextInputType.number, 
+            validator: _validarEmail, 
+            keyboardType: TextInputType.emailAddress, 
             textInputAction: TextInputAction.next, 
             nextFocus: _focusSenha),
             SizedBox(height: 18,),
@@ -85,19 +84,10 @@ class _LoginPageState extends State<LoginPage> {
       return;
     }
 
-    String cpf = _tCPF.text;
+    String email = _tEmail.text;
     String senha = _tSenha.text;
 
-    print("CPF: $cpf, Senha: $senha");
-
-    bool loginAceito = await LoginApi.login(cpf, senha);
-
-    if(loginAceito) {
-      push(context, HomePage());
-    } else {
-      print("Login incorreto!");
-    }
-    
+    _validarCadastro(email, senha);
   }
 
   void _onClickRegister() async {
@@ -106,12 +96,9 @@ class _LoginPageState extends State<LoginPage> {
 
   }
 
-  String _validarCPF(String cpf) {
-    if(cpf.isEmpty) {
-      return "Digite o seu CPF";
-    }
-    if(cpf.length != 11) {
-      return "CPF incorreto";
+  String _validarEmail(String email) {
+    if(email.isEmpty) {
+      return "Digite o seu e-mail";
     }
     return null;
   } 
@@ -123,18 +110,18 @@ class _LoginPageState extends State<LoginPage> {
     return null;
   } 
 
-  String _validarCadastro(String cpf, String senha) async {
+  void _validarCadastro(String email, String senha) {
 
-    Firestore db = Firestore.instance;
-    String msgRetorno;
-    bool validaCPF, validaSenha;
+    FirebaseAuth auth = FirebaseAuth.instance;
 
-    db.collection("users").snapshots().listen( // Verifica se tem alguma alteração no banco de dados e atualiza
-      (snapshot) {
-        for(DocumentSnapshot cadastro in snapshot.documents) {
-         var dados = cadastro.data; 
-        }
-       }
-    );
+   auth.signInWithEmailAndPassword(
+     email: email, 
+     password: senha
+     ).then((firebaseUser) {
+       print("Login realizado com sucesso! Email: " + firebaseUser.email);
+       push(context, HomePage());
+     }).catchError((erro) {
+       print("Erro ao realizar o login! Erro: " + erro.toString());
+     });
   }
 }
