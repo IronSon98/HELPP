@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:helpp/pages/login_page.dart';
+import 'package:helpp/pages/home_page.dart';
 import 'package:helpp/widgets/app_button.dart';
 import 'package:helpp/widgets/app_text.dart';
 import 'package:helpp/utils/nav.dart';
@@ -57,6 +57,7 @@ class _RegisterPageState extends State<RegisterPage> {
             "Digite o seu nome", 
             controller: _tNome, 
             sizeText: 18,
+            validator: _validarNome,
             keyboardType: TextInputType.text, 
             textInputAction: TextInputAction.next, 
             nextFocus: _focusCPF),
@@ -79,6 +80,7 @@ class _RegisterPageState extends State<RegisterPage> {
             "Digite a sua idade", 
             controller: _tIdade, 
             sizeText: 18,
+            validator: _validarIdade,
             keyboardType: TextInputType.number,
             focusNode: _focusIdade,  
             textInputAction: TextInputAction.next, 
@@ -90,6 +92,7 @@ class _RegisterPageState extends State<RegisterPage> {
             "Digite um e-mail válido", 
             controller: _tEmail, 
             sizeText: 18,
+            validator: _validarEmail,
             keyboardType: TextInputType.emailAddress,
             focusNode: _focusEmail,  
             textInputAction: TextInputAction.next, 
@@ -101,6 +104,7 @@ class _RegisterPageState extends State<RegisterPage> {
             "Digite um número de telefone para contato", 
             controller: _tTelefone,
             sizeText: 18,
+            validator: _validarTelefone,
             focusNode: _focusTelefone,
             textInputAction: TextInputAction.next, 
             nextFocus: _focusSenha),
@@ -140,6 +144,7 @@ class _RegisterPageState extends State<RegisterPage> {
     String email = _tEmail.text;
     String telefone = _tTelefone.text;
     String senha = _tSenha.text;
+    String _mensagemErro = "";
     
     Firestore db = Firestore.instance;
 
@@ -147,7 +152,7 @@ class _RegisterPageState extends State<RegisterPage> {
     .document(cpf)
     .setData(
       {
-        "nome" : nome,
+        "nome" : nome, 
         "idade" : idade,
         "email" : email,
         "telefone" : telefone,
@@ -160,21 +165,52 @@ class _RegisterPageState extends State<RegisterPage> {
     auth.createUserWithEmailAndPassword(
       email: email, password: senha
       ).then((firebaseUser){
-        print("Novo usuário cadastrado com sucesso! E-mail: " + firebaseUser.email);
+        setState(() {
+          _mensagemErro = "Cadastro realizado com sucesso!";
+          push(context, HomePage()); //Realiza o login
+        });
       }).catchError((erro){
-        print("Erro ao criar um novo usuário: " + erro.toString());
+        setState(() {
+          _mensagemErro = "Erro ao realizar o cadastro de usuário! Verifique o e-mail ou a senha.";
+        });
       });
-  
-    push(context, LoginPage()); //Chamada da página de login
-    
   }
 
+  
+  String _validarNome(String nome) {
+    if(nome.isEmpty) {
+      return "Digite o seu nome";
+    }
+    return null;
+  } 
+  
   String _validarCPF(String cpf) {
     if(cpf.isEmpty) {
       return "Digite o seu CPF";
     }
     if(cpf.length != 11) {
       return "CPF incorreto";
+    }
+    return null;
+  } 
+
+  String _validarIdade(String idade) {
+    if(idade.isEmpty) {
+      return "Digite sua idade";
+    }
+    return null;
+  } 
+
+  String _validarEmail(String email) {
+    if(email.isEmpty) {
+      return "Digite um e-mail";
+    }
+    return null;
+  } 
+
+  String _validarTelefone(String telefone) {
+    if(telefone.isEmpty) {
+      return "Digite o seu telefone";
     }
     return null;
   } 

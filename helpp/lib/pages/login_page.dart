@@ -19,8 +19,20 @@ class _LoginPageState extends State<LoginPage> {
 
   final _focusSenha = FocusNode();
 
+//Verifica se existe um usuário logado e o enviada para a tela inicial
+  Future _verificarUsuarioLogado() async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+
+    FirebaseUser usuarioLogado = await auth.currentUser();
+
+    if(usuarioLogado != null) {
+      push(context, HomePage());
+    }
+  }
+
   @override
   void initState() {
+    _verificarUsuarioLogado();
     super.initState();
   }
 
@@ -142,18 +154,23 @@ class _LoginPageState extends State<LoginPage> {
     return null;
   } 
 
-  void _validarCadastro(String email, String senha) {
+  _validarCadastro(String email, String senha) {
 
+    String _mensagemErro = "";
     FirebaseAuth auth = FirebaseAuth.instance;
 
-   auth.signInWithEmailAndPassword(
+    auth.signInWithEmailAndPassword(
      email: email, 
      password: senha
      ).then((firebaseUser) {
-       print("Login realizado com sucesso! Email: " + firebaseUser.email);
+       setState(() {
+          _mensagemErro = "Login realizado com sucesso!";
+        });
        push(context, HomePage());
      }).catchError((erro) {
-       print("Erro ao realizar o login! Erro: " + erro.toString());
+       setState(() {
+          _mensagemErro = "Erro ao realizar o login. Dados inválidos!";
+        });
      });
   }
 }

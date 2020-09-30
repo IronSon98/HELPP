@@ -40,7 +40,7 @@ class AppText extends StatelessWidget {
         }
       },
       style: TextStyle(
-        fontSize: 10,
+        fontSize: 16,
         color: Color(0xFF2196F3),
       ),
       decoration: InputDecoration(
