@@ -40,18 +40,21 @@ class AppText extends StatelessWidget {
         }
       },
       style: TextStyle(
-        fontSize: 15,
-        color: Colors.black,
+        fontSize: 10,
+        color: Color(0xFF2196F3),
       ),
       decoration: InputDecoration(
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(32)
+        ),
         labelText: label,
         labelStyle: TextStyle(
           fontSize: sizeText,
-          color: Colors.blue,
+          color: Color(0xFF2196F3),
         ),
         hintText: hint,
         hintStyle: TextStyle(
-          color: Colors.grey,
+          color: Color(0xFF2196F3),
         ),
       ),
     );

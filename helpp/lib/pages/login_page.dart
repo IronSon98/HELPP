@@ -27,10 +27,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("HELPP"),
-        ),
-        body: _body(),
+      body: _body(),
     );
   }
 
@@ -38,40 +35,75 @@ class _LoginPageState extends State<LoginPage> {
     return Form(
       key: _formKey,
       child: Container (
+        decoration: BoxDecoration(color: Color(0xFFFFFFFF)),
         padding: EdgeInsets.all(16),
-        child: ListView(
-          children: <Widget>[
+        child: Center (
+          child: SingleChildScrollView ( 
+            child: Column (
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
 
-            AppText("E-MAIL", 
-            "Digite o seu e-mail", 
-            controller: _tEmail, 
-            sizeText: 20,
-            validator: _validarEmail, 
-            keyboardType: TextInputType.emailAddress, 
-            textInputAction: TextInputAction.next, 
-            nextFocus: _focusSenha),
-            SizedBox(height: 18,),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 32),
+                  child: Image.asset(
+                    "imagens/logo_03.jpg", 
+                    width: 192, 
+                    height: 192,
+                  ),
+                ),
 
-            AppText("SENHA", 
-            "Digite sua senha", 
-            password: true, 
-            controller: _tSenha, 
-            sizeText: 20,
-            validator: _validarSenha, 
-            focusNode: _focusSenha),
-            SizedBox(height: 20,),
+                AppText("E-mail", 
+                "Digite o seu e-mail", 
+                controller: _tEmail, 
+                sizeText: 18,
+                validator: _validarEmail, 
+                keyboardType: TextInputType.emailAddress, 
+                textInputAction: TextInputAction.next, 
+                nextFocus: _focusSenha),
 
-            AppButton(
-              "ACESSAR", 
-              onPressed: _onClickLogin,
+                SizedBox(height: 12,),
+
+                AppText("Senha", 
+                "Digite sua senha", 
+                password: true, 
+                controller: _tSenha, 
+                sizeText: 18,
+                validator: _validarSenha, 
+                focusNode: _focusSenha),
+
+                SizedBox(height: 22,),
+
+                AppButton(
+                  "ACESSAR", 
+                  onPressed: _onClickLogin,
+                ),
+
+                SizedBox(height: 12,),
+
+                AppButton(
+                  "CADASTRAR",
+                  onPressed: _onClickRegister,
+                ),
+
+                SizedBox(height: 20,),
+
+                Center(
+                  child: GestureDetector(
+                    child: Text(
+                      "Esqueci minha senha",
+                      style: TextStyle(
+                        color: Color(0xFF2196F3),
+                        fontSize: 14
+                      )
+                    ),
+                    onTap: () {
+
+                    },
+                  ),
+                )
+              ],
             ),
-            SizedBox(height: 20,),
-
-            AppButton(
-              "CADASTRAR",
-              onPressed: _onClickRegister,
-            )
-          ],
+          ),
         ),
       ),
     );

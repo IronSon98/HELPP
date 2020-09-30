@@ -9,15 +9,18 @@ class AppButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height:46,
+      height:52,
       child: RaisedButton(
-        color: Colors.blue,
+        color: Color(0xFF2196F3),
         child: Text(
           text,
           style: TextStyle(
             color: Colors.white, 
-            fontSize: 20,
+            fontSize: 18,
           ),
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(32)
         ),
         onPressed: onPressed,
       ),

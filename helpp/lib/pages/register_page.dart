@@ -36,9 +36,10 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("HELPP"),
-        ),
-        body: _body(),
+        title:Text("HELPP",),
+      ),
+      
+      body: _body(),
     );
   }
 
@@ -50,14 +51,17 @@ class _RegisterPageState extends State<RegisterPage> {
         child: ListView(
           children: <Widget>[
 
-            AppText("NOME", 
+            SizedBox(height: 5,),
+
+            AppText("Nome", 
             "Digite o seu nome", 
             controller: _tNome, 
             sizeText: 18,
             keyboardType: TextInputType.text, 
             textInputAction: TextInputAction.next, 
             nextFocus: _focusCPF),
-            SizedBox(height: 18,),
+            
+            SizedBox(height: 12,),
 
             AppText("CPF", 
             "Digite o seu CPF", 
@@ -68,9 +72,10 @@ class _RegisterPageState extends State<RegisterPage> {
             focusNode: _focusCPF, 
             textInputAction: TextInputAction.next, 
             nextFocus: _focusIdade),
-            SizedBox(height: 18,),
+            
+            SizedBox(height: 12,),
 
-            AppText("IDADE", 
+            AppText("Idade", 
             "Digite a sua idade", 
             controller: _tIdade, 
             sizeText: 18,
@@ -78,9 +83,10 @@ class _RegisterPageState extends State<RegisterPage> {
             focusNode: _focusIdade,  
             textInputAction: TextInputAction.next, 
             nextFocus: _focusEmail),
-            SizedBox(height: 18,),
+            
+            SizedBox(height: 12,),
 
-            AppText("E-MAIL", 
+            AppText("E-mail", 
             "Digite um e-mail válido", 
             controller: _tEmail, 
             sizeText: 18,
@@ -88,25 +94,28 @@ class _RegisterPageState extends State<RegisterPage> {
             focusNode: _focusEmail,  
             textInputAction: TextInputAction.next, 
             nextFocus: _focusTelefone),
-            SizedBox(height: 18,),
+            
+            SizedBox(height: 12,),
 
-            AppText("TELEFONE", 
+            AppText("Telefone", 
             "Digite um número de telefone para contato", 
             controller: _tTelefone,
             sizeText: 18,
             focusNode: _focusTelefone,
             textInputAction: TextInputAction.next, 
             nextFocus: _focusSenha),
-            SizedBox(height: 18,),
+            
+            SizedBox(height: 12,),
 
-            AppText("SENHA", 
+            AppText("Senha", 
             "Digite sua senha", 
             password: true, 
             controller: _tSenha, 
             sizeText: 18,
             validator: _validarSenha,
             focusNode: _focusSenha),
-            SizedBox(height: 20,),
+            
+            SizedBox(height: 22,),
 
             AppButton(
               "CADASTRAR", 
