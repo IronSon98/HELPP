@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:helpp/pages/adoption_page_one.dart';
+import 'package:helpp/pages/menu_adoption.dart';
+import 'package:helpp/pages/login_page.dart';
 import 'package:helpp/utils/nav.dart';
 
 class HomePage extends StatefulWidget {
@@ -35,7 +36,15 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("HELPP - " + _emailUsuario,),
+        title: Text("HELPP"),
+        centerTitle: true,
+        actions: <Widget> [
+          IconButton(icon: Icon(Icons.power_settings_new), onPressed: ()  {
+            FirebaseAuth auth = FirebaseAuth.instance;
+            auth.signOut();
+            push(context, LoginPage());
+          },)
+        ]
       ),
       body: _body(),
     );
@@ -47,27 +56,36 @@ class _HomePageState extends State<HomePage> {
       child: Container (
         decoration: BoxDecoration(color: Color(0xFFFFFFFF)),
         padding: EdgeInsets.all(16),
-        child: Center (
-          child: SingleChildScrollView ( 
-            child: Column (
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
+        child: SingleChildScrollView ( 
+          child: Column (
+           crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
 
-                Center(
-                  child: GestureDetector(
-                    child: Image.asset(
-                    "imagens/logo_adocao.JPG", 
-                    width: 192, 
-                    height: 192,
-                  ),
-                    onTap: () {
-                      push(context, AdoptionPageOne());
-                    },
-                  ),
-                )
-                
-              ],
-            ),
+             
+              GestureDetector(
+                child: Image.asset(
+                "imagens/logo_adocao.JPG", 
+                width: 240, 
+                height: 240,
+              ),
+                onTap: () {
+                  push(context, MenuAdoption());
+                },
+              ),
+            
+              GestureDetector(
+                child: Image.asset(
+                "imagens/logo_maustratos.JPG", 
+                width: 240, 
+                height: 240,
+              ),
+                onTap: () {
+                  push(context, MenuAdoption());
+                },
+              ),
+              
+              
+            ],
           ),
         ),
       ),

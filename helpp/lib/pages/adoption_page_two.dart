@@ -4,6 +4,7 @@ import 'package:helpp/models/anunciante.dart';
 import 'package:helpp/widgets/app_button.dart';
 import 'package:helpp/widgets/app_text.dart';
 import 'package:helpp/utils/nav.dart';
+import 'package:helpp/pages/adoption_page_three.dart';
 
 class AdoptionPageTwo extends StatefulWidget {
 
@@ -104,7 +105,7 @@ class _AdoptionPageTwoState extends State<AdoptionPageTwo> {
               "Digite seu whatsapp", 
               controller: _tWhatsapp, 
               sizeText: 18,
-                keyboardType: TextInputType.number,
+              keyboardType: TextInputType.number,
               focusNode: _focusWhatsapp),
               
               SizedBox(height: 22,),
@@ -131,14 +132,14 @@ class _AdoptionPageTwoState extends State<AdoptionPageTwo> {
     String _email = _tEmail.text;
     String _whatsapp = _tWhatsapp.text;
 
-    Anunciante anunciante;
+    Anunciante anunciante = new Anunciante();
 
     anunciante.nome = _nome;
     anunciante.telefone = _telefone;
     anunciante.email = _email;
     anunciante.whatsapp = _whatsapp;
     
-    //push(context, AdoptionPageThree(${widget.animal}, anunciante));
+    push(context, AdoptionPageThree(widget.animal, anunciante));
   }
 
   
