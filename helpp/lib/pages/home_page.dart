@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:helpp/pages/menu_adoption.dart';
+import 'package:helpp/pages/menu_animals.dart';
+import 'package:helpp/pages/menu_kids.dart';
 import 'package:helpp/pages/login_page.dart';
 import 'package:helpp/utils/nav.dart';
 
@@ -64,23 +65,23 @@ class _HomePageState extends State<HomePage> {
              
               GestureDetector(
                 child: Image.asset(
-                "imagens/logo_adocao.JPG", 
-                width: 240, 
-                height: 240,
+                "imagens/logo_animais.JPG", 
+                width: 220, 
+                height: 220,
               ),
                 onTap: () {
-                  push(context, MenuAdoption());
+                  push(context, MenuAnimals());
                 },
               ),
             
               GestureDetector(
                 child: Image.asset(
-                "imagens/logo_maustratos.JPG", 
+                "imagens/logo_criancas.JPG", 
                 width: 240, 
                 height: 240,
               ),
                 onTap: () {
-                  push(context, MenuAdoption());
+                  push(context, MenuKids());
                 },
               ),
               

@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:helpp/widgets/app_button.dart';
 import 'package:helpp/utils/nav.dart';
 import 'package:helpp/pages/adoption_page_one.dart';
+import 'package:helpp/pages/complaint_page_one.dart';
 
-class MenuAdoption extends StatefulWidget {
+class MenuKids extends StatefulWidget {
   @override
-  _MenuAdoptionState createState() => _MenuAdoptionState();
+  _MenuKidsState createState() => _MenuKidsState();
 }
 
-class _MenuAdoptionState extends State<MenuAdoption> {
+class _MenuKidsState extends State<MenuKids> {
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -42,22 +43,22 @@ class _MenuAdoptionState extends State<MenuAdoption> {
                 Padding(
                   padding: EdgeInsets.only(bottom: 32),
                   child: Image.asset(
-                    "imagens/logo_adocao2.JPG", 
+                    "imagens/logo_criancas2.JPG", 
                     width: 240, 
                     height: 240,
                   ),
                 ),
 
                 AppButton(
-                  "ANUNCIAR", 
+                  "VISUALIZAR DESAPARECIDOS", 
                   onPressed: _onAnnounceAdoption,
                 ),
 
                 SizedBox(height: 12,),
 
                 AppButton(
-                  "ADOTAR",
-                  onPressed: _onAdoption,
+                  "DENUNCIAR DESAPARECIMENTO",
+                  onPressed: _onComplaint,
                 ),
               ],
             ),
@@ -76,13 +77,13 @@ class _MenuAdoptionState extends State<MenuAdoption> {
     push(context, AdoptionPageOne());
   }
 
-  void _onAdoption() async {
+  void _onComplaint() async {
     bool formOk = _formKey.currentState.validate();
     if(!formOk) {
       return;
     }
 
-    push(context, AdoptionPageOne());
+    push(context, ComplaintPageOne());
   }
 
 }
