@@ -1,10 +1,13 @@
+import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:helpp/pages/home_page.dart';
 import 'package:helpp/widgets/app_button.dart';
 import 'package:helpp/widgets/app_text.dart';
 import 'package:helpp/utils/nav.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:validadores/validadores.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -70,6 +73,10 @@ class _RegisterPageState extends State<RegisterPage> {
             sizeText: 18, 
             validator: _validarCPF, 
             keyboardType: TextInputType.number,
+            inputFormatters: [
+              WhitelistingTextInputFormatter.digitsOnly,
+              CpfInputFormatter()
+            ],
             focusNode: _focusCPF, 
             textInputAction: TextInputAction.next, 
             nextFocus: _focusIdade),
@@ -105,6 +112,11 @@ class _RegisterPageState extends State<RegisterPage> {
             controller: _tTelefone,
             sizeText: 18,
             validator: _validarTelefone,
+            keyboardType: TextInputType.number,
+            inputFormatters: [
+              WhitelistingTextInputFormatter.digitsOnly,
+              TelefoneInputFormatter()
+            ],
             focusNode: _focusTelefone,
             textInputAction: TextInputAction.next, 
             nextFocus: _focusSenha),
@@ -139,10 +151,10 @@ class _RegisterPageState extends State<RegisterPage> {
     }
 
     String nome = _tNome.text;
-    String cpf =  _tCPF.text;
+    String cpf =  _tCPF.text.toString();
     String idade = _tIdade.text;
     String email = _tEmail.text;
-    String telefone = _tTelefone.text;
+    String telefone = _tTelefone.text.toString();
     String senha = _tSenha.text;
     String _mensagemErro = "";
     
@@ -178,47 +190,44 @@ class _RegisterPageState extends State<RegisterPage> {
 
   
   String _validarNome(String nome) {
-    if(nome.isEmpty) {
-      return "Digite o seu nome";
-    }
-    return null;
+    return Validador()
+    .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+    .valido(nome);
   } 
   
   String _validarCPF(String cpf) {
-    if(cpf.isEmpty) {
-      return "Digite o seu CPF";
-    }
-    if(cpf.length != 11) {
-      return "CPF incorreto";
-    }
-    return null;
+    return Validador()
+    .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+    .add(Validar.CPF, msg: "CPF inválido")
+    .minLength(11)
+    .maxLength(11)
+    .valido(cpf);
   } 
 
   String _validarIdade(String idade) {
-    if(idade.isEmpty) {
-      return "Digite sua idade";
-    }
-    return null;
+    return Validador()
+    .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+    .valido(idade);
   } 
 
   String _validarEmail(String email) {
-    if(email.isEmpty) {
-      return "Digite um e-mail";
-    }
-    return null;
+   return Validador()
+    .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+    .add(Validar.EMAIL, msg: "E-mail inválido")
+    .valido(email);
   } 
 
   String _validarTelefone(String telefone) {
-    if(telefone.isEmpty) {
-      return "Digite o seu telefone";
-    }
-    return null;
+    return Validador()
+    .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+    .valido(telefone);
   } 
 
    String _validarSenha(String senha) {
-    if(senha.isEmpty) {
-      return "Digite sua senha";
-    }
-    return null;
+    return Validador()
+    .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+    .minLength(8)
+    .maxLength(16)
+    .valido(senha);
   } 
 }

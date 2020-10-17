@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class AppText extends StatelessWidget {
   String label; 
@@ -8,10 +9,11 @@ class AppText extends StatelessWidget {
   double sizeText;
   FormFieldValidator<String> validator; 
   TextInputType keyboardType;
+  List<TextInputFormatter> inputFormatters;
   TextInputAction textInputAction;
   FocusNode focusNode;
   FocusNode nextFocus;
-
+  
   AppText(
     this.label, 
     this.hint, {
@@ -19,7 +21,8 @@ class AppText extends StatelessWidget {
     this.controller,
     this.sizeText, 
     this.validator, 
-    this.keyboardType, 
+    this.keyboardType,
+    this.inputFormatters,
     this.textInputAction, 
     this.focusNode, 
     this.nextFocus,
@@ -32,6 +35,7 @@ class AppText extends StatelessWidget {
       obscureText: password,
       validator: validator,
       keyboardType: keyboardType,
+      inputFormatters: inputFormatters,
       textInputAction: textInputAction,
       focusNode: focusNode,
       onFieldSubmitted: (String text) {

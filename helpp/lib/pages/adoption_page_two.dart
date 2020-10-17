@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:helpp/models/animal.dart';
 import 'package:helpp/models/anunciante.dart';
 import 'package:helpp/widgets/app_button.dart';
 import 'package:helpp/widgets/app_text.dart';
 import 'package:helpp/utils/nav.dart';
 import 'package:helpp/pages/adoption_page_three.dart';
+import 'package:brasil_fields/brasil_fields.dart';
+import 'package:validadores/validadores.dart';
 
 class AdoptionPageTwo extends StatefulWidget {
 
@@ -83,6 +86,10 @@ class _AdoptionPageTwoState extends State<AdoptionPageTwo> {
               sizeText: 18, 
               validator: _validarTelefone, 
               keyboardType: TextInputType.number,
+              inputFormatters: [
+                WhitelistingTextInputFormatter.digitsOnly,
+                TelefoneInputFormatter()
+              ],
               focusNode: _focusTelefone, 
               textInputAction: TextInputAction.next, 
               nextFocus: _focusEmail),
@@ -106,6 +113,10 @@ class _AdoptionPageTwoState extends State<AdoptionPageTwo> {
               controller: _tWhatsapp, 
               sizeText: 18,
               keyboardType: TextInputType.number,
+              inputFormatters: [
+                WhitelistingTextInputFormatter.digitsOnly,
+                TelefoneInputFormatter()
+              ],
               focusNode: _focusWhatsapp),
               
               SizedBox(height: 22,),
@@ -128,9 +139,9 @@ class _AdoptionPageTwoState extends State<AdoptionPageTwo> {
     }
 
     String _nome = _tNome.text;
-    String _telefone = _tTelefone.text;
+    String _telefone = _tTelefone.text.toString();
     String _email = _tEmail.text;
-    String _whatsapp = _tWhatsapp.text;
+    String _whatsapp = _tWhatsapp.text.toString();
 
     Anunciante anunciante = new Anunciante();
 
@@ -144,52 +155,21 @@ class _AdoptionPageTwoState extends State<AdoptionPageTwo> {
 
   
   String _validarNome(String nome) {
-    if(nome.isEmpty) {
-      return "Digite seu nome";
-    }
-    return null;
+    return Validador()
+    .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+    .valido(nome);
   } 
   
   String _validarTelefone(String telefone) {
-    if(telefone.isEmpty) {
-      return "Digite o seu telefone";
-    }
-    return null;
+    return Validador()
+    .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+    .valido(telefone);
   } 
 
-  String _validarEmail(String email) {
-    if(email.isEmpty) {
-      return "Digite o seu email";
-    }
-    return null;
+ String _validarEmail(String email) {
+   return Validador()
+    .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+    .add(Validar.EMAIL, msg: "E-mail inválido")
+    .valido(email);
   } 
-
-  /*String _validarNomeAnimal(String nomeAnimal) {
-    if(nomeAnimal.isEmpty) {
-      return "Digite o nome do animal";
-    }
-    return null;
-  }*/
-
-  /*String _validarIdade(String idade) {
-    if(idade.isEmpty) {
-      return "Digite a idade do animal";
-    }
-    return null;
-  }*/
-
-  /*String _validarRaca(String raca) {
-    if(raca.isEmpty) {
-      return "Digite a raça do animal";
-    }
-    return null;
-  }*/
-
-  /*String _validarInformacoesAdicionais(String informacoesAdicionais) {
-    if(informacoesAdicionais.isEmpty) {
-      return "Digite informações adicionais";
-    }
-    return null;
-  }*/
-
 }

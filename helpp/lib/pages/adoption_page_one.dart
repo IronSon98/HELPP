@@ -4,6 +4,7 @@ import 'package:helpp/widgets/app_button.dart';
 import 'package:helpp/widgets/app_text.dart';
 import 'package:helpp/utils/nav.dart';
 import 'package:helpp/pages/adoption_page_two.dart';
+import 'package:validadores/validadores.dart';
 
 class AdoptionPageOne extends StatefulWidget {
   @override
@@ -188,52 +189,20 @@ class _AdoptionPageOneState extends State<AdoptionPageOne> {
 
   
   String _validarAnimal(String animal) {
-    if(animal.isEmpty) {
-      return "Digite o animal";
-    }
-    return null;
+    return Validador()
+    .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+    .valido(animal);
   } 
   
   String _validarSexo(String sexo) {
-    if(sexo.isEmpty) {
-      return "Digite o sexo do animal";
-    }
-    return null;
+    return Validador()
+    .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+    .valido(sexo);
   } 
 
   String _validarPorte(String porte) {
-    if(porte.isEmpty) {
-      return "Digite o porte do animal";
-    }
-    return null;
+    return Validador()
+    .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+    .valido(porte);
   } 
-
-  /*String _validarNomeAnimal(String nomeAnimal) {
-    if(nomeAnimal.isEmpty) {
-      return "Digite o nome do animal";
-    }
-    return null;
-  }*/
-
-  /*String _validarIdade(String idade) {
-    if(idade.isEmpty) {
-      return "Digite a idade do animal";
-    }
-    return null;
-  }*/
-
-  /*String _validarRaca(String raca) {
-    if(raca.isEmpty) {
-      return "Digite a raça do animal";
-    }
-    return null;
-  }*/
-
-  /*String _validarInformacoesAdicionais(String informacoesAdicionais) {
-    if(informacoesAdicionais.isEmpty) {
-      return "Digite informações adicionais";
-    }
-    return null;
-  }*/
-
 }

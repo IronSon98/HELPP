@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:helpp/models/maustratos.dart';
 import 'package:helpp/widgets/app_button.dart';
 import 'package:helpp/widgets/app_text.dart';
@@ -6,6 +7,8 @@ import 'package:helpp/utils/nav.dart';
 import 'package:helpp/models/email.dart';
 import 'package:helpp/pages/complaint_page_two.dart';
 import 'package:helpp/models/maustratos.dart';
+import 'package:brasil_fields/brasil_fields.dart';
+import 'package:validadores/validadores.dart';
 
 class ComplaintPageOne extends StatefulWidget {
   @override
@@ -183,6 +186,10 @@ class _ComplaintPageOneState extends State<ComplaintPageOne> {
                   controller: _tCep,
                   sizeText: 18,
                   keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    WhitelistingTextInputFormatter.digitsOnly,
+                    CepInputFormatter()
+                  ],
                   focusNode: _focusCep,
                   textInputAction: TextInputAction.next, 
                   nextFocus: _focusDataDoFato),
@@ -205,6 +212,10 @@ class _ComplaintPageOneState extends State<ComplaintPageOne> {
                   sizeText: 18,
                   validator: _validarDataDoFato,
                   keyboardType: TextInputType.datetime,
+                  inputFormatters: [
+                    WhitelistingTextInputFormatter.digitsOnly,
+                    DataInputFormatter()
+                  ],
                   focusNode: _focusDataDoFato,
                   textInputAction: TextInputAction.next, 
                   nextFocus: _focusHoraDoFato),
@@ -217,6 +228,10 @@ class _ComplaintPageOneState extends State<ComplaintPageOne> {
                   sizeText: 18,
                   validator: _validarHoraDoFato,
                   keyboardType: TextInputType.datetime,
+                  inputFormatters: [
+                    WhitelistingTextInputFormatter.digitsOnly,
+                    HoraInputFormatter()
+                  ],
                   focusNode: _focusHoraDoFato,
                   textInputAction: TextInputAction.next, 
                   nextFocus: _focusRelatoDoFato),
@@ -311,6 +326,10 @@ class _ComplaintPageOneState extends State<ComplaintPageOne> {
                   sizeText: 18,
                   validator: _validarCpf,
                   keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    WhitelistingTextInputFormatter.digitsOnly,
+                    CpfInputFormatter()
+                  ],
                   focusNode: _focusCpf,
                   textInputAction: TextInputAction.next, 
                   nextFocus: _focusTelefone),
@@ -323,16 +342,21 @@ class _ComplaintPageOneState extends State<ComplaintPageOne> {
                   sizeText: 18,
                   validator: _validarTelefone,
                   keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    WhitelistingTextInputFormatter.digitsOnly,
+                    TelefoneInputFormatter()
+                  ],
                   focusNode: _focusTelefone,
                   textInputAction: TextInputAction.next, 
                   nextFocus: _focusEmail),
 
                   SizedBox(height: 12,),
 
-                  AppText("E-mail", 
+                  AppText("E-mail*", 
                   "Digite seu e-mail", 
                   controller: _tEmail,
                   sizeText: 18,
+                  validator: _validarEmail,
                   keyboardType: TextInputType.emailAddress,
                   focusNode: _focusEmail,
                   textInputAction: TextInputAction.next, 
@@ -393,6 +417,10 @@ class _ComplaintPageOneState extends State<ComplaintPageOne> {
                   controller: _tCepDenunciante,
                   sizeText: 18,
                   keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    WhitelistingTextInputFormatter.digitsOnly,
+                    CepInputFormatter()
+                  ],
                   focusNode: _focusCepDenunciante,
                   textInputAction: TextInputAction.next, 
                   nextFocus: _focusNomeDenunciado),
@@ -466,10 +494,10 @@ class _ComplaintPageOneState extends State<ComplaintPageOne> {
     denuncia.municipio = _tMunicipio.text;
     denuncia.endereco = _tEndereco.text;
     denuncia.numero = _tNumero.text;
-    denuncia.cep = _tCep.text;
+    denuncia.cep = _tCep.text.toString();
 
-    denuncia.dataDoFato = _tDataDoFato.text;
-    denuncia.horaDoFato = _tHoraDoFato.text;
+    denuncia.dataDoFato = _tDataDoFato.text.toString();
+    denuncia.horaDoFato = _tHoraDoFato.text.toString();
     denuncia.relatoDoFato = _tRelatoDoFato.text;
     denuncia.tipoDeCrime = _tTipoDeCrime.text;
     denuncia.classificacaoDoAnimal = _tClassificacaoDoAnimal.text;
@@ -477,14 +505,14 @@ class _ComplaintPageOneState extends State<ComplaintPageOne> {
     denuncia.quantidade = _tQuantidade.text;
 
     denuncia.nomeDenunciante = _tNomeDenunciante.text;
-    denuncia.cpf = _tCpf.text;
-    denuncia.telefone = _tTelefone.text;
+    denuncia.cpf = _tCpf.text.toString();
+    denuncia.telefone = _tTelefone.text.toString();
     denuncia.email = _tEmail.text;
     denuncia.estadoDenunciante = _tEstadoDenunciante.text;
     denuncia.municipioDenunciante = _tMunicipioDenunciante.text;
     denuncia.enderecoDenunciante = _tEnderecoDenunciante.text;
     denuncia.numeroDenunciante = _tNumeroDenunciante.text;
-    denuncia.cepDenunciante = _tCepDenunciante.text;
+    denuncia.cepDenunciante = _tCepDenunciante.text.toString();
 
     denuncia.nomeDenunciado = _tNomeDenunciado.text;
     denuncia.descricao = _tDescricao.text;
@@ -495,136 +523,127 @@ class _ComplaintPageOneState extends State<ComplaintPageOne> {
   }
 
   String _validarTipoDeEndereco(String tipoDeEndereco) {
-    if(tipoDeEndereco.isEmpty) {
-      return "Selecione o tipo de endereço";
-    }
-    return null;
+    return Validador()
+    .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+    .valido(tipoDeEndereco);
   } 
   
   String _validarEstado(String estado) {
-    if(estado.isEmpty) {
-      return "Digite o estado";
-    }
-    return null;
+     return Validador()
+    .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+    .valido(estado);
   } 
 
-  String _validarMunicipio(String municipio) {
-    if(municipio.isEmpty) {
-      return "Digite o município";
-    }
-    return null;
+  String _validarMunicipio(String estado) {
+    return Validador()
+    .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+    .valido(estado);
   } 
 
   String _validarEndereco(String endereco) {
-    if(endereco.isEmpty) {
-      return "Digite o endereço";
-    }
-    return null;
+     return Validador()
+    .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+    .valido(endereco);
   }
 
   String _validarNumero(String numero) {
-    if(numero.isEmpty) {
-      return "Digite o numero";
-    }
-    return null;
+     return Validador()
+    .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+    .valido(numero);
   }
 
     String _validarDataDoFato(String dataDoFato) {
-    if(dataDoFato.isEmpty) {
-      return "Digite a data do fato";
-    }
-    return null;
+    return Validador()
+    .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+    .valido(dataDoFato);
   } 
   
   String _validarHoraDoFato(String horaDoFato) {
-    if(horaDoFato.isEmpty) {
-      return "Digite a hora do fato";
-    }
-    return null;
+     return Validador()
+    .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+    .valido(horaDoFato);
   } 
 
   String _validarRelatoDoFato(String relatoDoFato) {
-    if(relatoDoFato.isEmpty) {
-      return "Digite o relato do fato";
-    }
-    return null;
+     return Validador()
+    .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+    .valido(relatoDoFato);
   } 
 
   String _validarTipoDeCrime(String tipoDeCrime) {
-    if(tipoDeCrime.isEmpty) {
-      return "Selecione o tipo de crime";
-    }
-    return null;
+    return Validador()
+    .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+    .valido(tipoDeCrime);
   }
 
   String _validarClassificacaoDoAnimal(String classificacaoDoAnimal) {
-    if(classificacaoDoAnimal.isEmpty) {
-      return "Selecione a classificação do animal";
-    }
-    return null;
+     return Validador()
+    .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+    .valido(classificacaoDoAnimal);
   }
 
   String _validarPorte(String porte) {
-    if(porte.isEmpty) {
-      return "Digite o porte do animal";
-    }
-    return null;
+    return Validador()
+    .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+    .valido(porte);
   }
 
   String _validarQuantidade(String quantidade) {
-    if(quantidade.isEmpty) {
-      return "Digite a quantidade de animais";
-    }
-    return null;
+     return Validador()
+    .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+    .valido(quantidade);
   }
 
   String _validarNomeDenunciante(String nomeDenunciante) {
-    if(nomeDenunciante.isEmpty) {
-      return "Digite seu nome";
-    }
-    return null;
+     return Validador()
+    .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+    .valido(nomeDenunciante);
   }
 
   String _validarCpf(String cpf) {
-    if(cpf.isEmpty) {
-      return "Digite o seu cpf";
-    }
-    return null;
+     return Validador()
+    .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+    .add(Validar.CPF, msg: "CPF inválido")
+    .minLength(11)
+    .maxLength(11)
+    .valido(cpf);
   }
 
   String _validarTelefone(String telefone) {
-    if(telefone.isEmpty) {
-      return "Digite o seu telefone";
-    }
-    return null;
+     return Validador()
+    .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+    .valido(telefone);
   }
 
+  String _validarEmail(String email) {
+   return Validador()
+    .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+    .add(Validar.EMAIL, msg: "E-mail inválido")
+    .valido(email);
+  } 
+
   String _validarEstadoDenunciante(String estadoDenunciante) {
-    if(estadoDenunciante.isEmpty) {
-      return "Digite o estado que você mora";
-    }
-    return null;
+    return Validador()
+    .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+    .valido(estadoDenunciante);
   } 
 
   String _validarMunicipioDenunciante(String municipioDenunciante) {
-    if(municipioDenunciante.isEmpty) {
-      return "Digite o município que você mora";
-    }
-    return null;
+    return Validador()
+    .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+    .valido(municipioDenunciante);
   } 
 
   String _validarEnderecoDenunciante(String enderecoDenunciante) {
-    if(enderecoDenunciante.isEmpty) {
-      return "Digite o seu endereço";
-    }
-    return null;
+     return Validador()
+    .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+    .valido(enderecoDenunciante);
   }
 
   String _validarNumeroDenunciante(String numeroDenunciante) {
-    if(numeroDenunciante.isEmpty) {
-      return "Digite o numero do seu endereço";
-    }
-    return null;
+    return Validador()
+    .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+    .valido(numeroDenunciante);
   }
 
 }
