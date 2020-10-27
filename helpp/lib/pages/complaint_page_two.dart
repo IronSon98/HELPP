@@ -38,6 +38,7 @@ class _ComplaintPageTwoState extends State<ComplaintPageTwo> {
     return Scaffold(
       appBar: AppBar(
         title:Text("HELPP",),
+        centerTitle: true,
       ),
       
       body: _body(),

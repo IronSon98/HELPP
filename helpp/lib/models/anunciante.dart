@@ -4,6 +4,8 @@ class Anunciante {
   String _nome;
   String _telefone;
   String _email;
+  String _estado;
+  String _cidade;
   String _whatsapp;
 
   Anunciante();
@@ -24,6 +26,18 @@ class Anunciante {
 
   set email(String value) {
     _email = value;
+  }
+
+  String get estado => _estado;
+
+  set estado(String value) {
+    _estado = value;
+  }
+
+  String get cidade => _cidade;
+
+  set cidade(String value) {
+    _cidade = value;
   }
 
   String get whatsapp => _whatsapp;

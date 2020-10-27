@@ -33,6 +33,7 @@ dependencies:
   brasil_fields: ^0.0.9 # Configurações de máscaras
   intl: ^0.16.1 # Aplicar formatações das máscaras
   validadores: ^1.0.2 # Validador de CPF, E-mail, etc.
+  carousel_pro: ^1.0.0 # Gerador de carrossel (visualização)
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -63,6 +64,9 @@ flutter:
     - imagens/logo_animais2.JPG
     - imagens/logo_criancas.JPG
     - imagens/logo_criancas2.JPG
+    - imagens/logotipo01_02.JPG
+    - imagens/logotipo02_01.JPG
+    - imagens/logotipo03_02.JPG
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

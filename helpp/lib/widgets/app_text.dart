@@ -13,6 +13,7 @@ class AppText extends StatelessWidget {
   TextInputAction textInputAction;
   FocusNode focusNode;
   FocusNode nextFocus;
+  int maxLines;
   
   AppText(
     this.label, 
@@ -23,6 +24,7 @@ class AppText extends StatelessWidget {
     this.validator, 
     this.keyboardType,
     this.inputFormatters,
+    this.maxLines = 1,
     this.textInputAction, 
     this.focusNode, 
     this.nextFocus,
@@ -36,6 +38,7 @@ class AppText extends StatelessWidget {
       validator: validator,
       keyboardType: keyboardType,
       inputFormatters: inputFormatters,
+      maxLines: maxLines,
       textInputAction: textInputAction,
       focusNode: focusNode,
       onFieldSubmitted: (String text) {

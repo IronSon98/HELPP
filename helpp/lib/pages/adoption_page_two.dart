@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:helpp/models/animal.dart';
 import 'package:helpp/models/anunciante.dart';
+import 'package:helpp/utils/config.dart';
 import 'package:helpp/widgets/app_button.dart';
 import 'package:helpp/widgets/app_text.dart';
 import 'package:helpp/utils/nav.dart';
@@ -26,16 +27,22 @@ class _AdoptionPageTwoState extends State<AdoptionPageTwo> {
   final _tNome = TextEditingController();
   final _tTelefone = TextEditingController();
   final _tEmail = TextEditingController();
+  final _tCidade = TextEditingController();
   final _tWhatsapp = TextEditingController();
 
   //Focus
-  final _focusWhatsapp = FocusNode();
   final _focusTelefone = FocusNode();
   final _focusEmail = FocusNode();
+  final _focusWhatsapp = FocusNode();
+
+  //Listas
+  List<DropdownMenuItem<String>> _listaItensEstado = List();
+  String _estadoSelecionado;
 
   @override
   void initState() {
     super.initState();
+    _listaItensEstado = Config.getEstados();
   }
 
   @override
@@ -43,6 +50,7 @@ class _AdoptionPageTwoState extends State<AdoptionPageTwo> {
     return Scaffold(
       appBar: AppBar(
         title:Text("HELPP",),
+        centerTitle: true,
       ),
       
       body: _body(),
@@ -97,15 +105,53 @@ class _AdoptionPageTwoState extends State<AdoptionPageTwo> {
               SizedBox(height: 12,),
 
               AppText("Email*", 
-              "Digite o o seu e-mail", 
+              "Digite o seu e-mail", 
               controller: _tEmail, 
               sizeText: 18,
               validator: _validarEmail,
               keyboardType: TextInputType.emailAddress,
               focusNode: _focusEmail,  
-              textInputAction: TextInputAction.next, 
-              nextFocus: _focusWhatsapp),
+              textInputAction: TextInputAction.next,),
               
+              SizedBox(height: 12,),
+
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.all(8),
+                      child: DropdownButtonFormField(
+                        value: _estadoSelecionado,
+                        hint: Text("Estado*"),
+                        style: TextStyle (
+                          color: Color(0xFF2196F3),
+                          fontSize: 18
+                        ),
+                        items: _listaItensEstado,
+                        validator: _validarEstado,
+                        onChanged: (valor) {
+                          setState(() {
+                            _estadoSelecionado = valor;
+                          });
+                        }
+                      ),
+                    ),
+                  ),
+                ]
+
+              ),
+
+              SizedBox(height: 12,),
+
+              AppText("Cidade*", 
+              "Digite a cidade que você mora", 
+              controller: _tCidade, 
+              sizeText: 18,
+              validator: _validarCidade,
+              keyboardType: TextInputType.text,  
+              textInputAction: TextInputAction.next,
+              nextFocus: _focusWhatsapp),
+
               SizedBox(height: 12,),
 
               AppText("Whatsapp", 
@@ -117,7 +163,7 @@ class _AdoptionPageTwoState extends State<AdoptionPageTwo> {
                 WhitelistingTextInputFormatter.digitsOnly,
                 TelefoneInputFormatter()
               ],
-              focusNode: _focusWhatsapp),
+              focusNode: _focusWhatsapp,),
               
               SizedBox(height: 22,),
 
@@ -138,17 +184,14 @@ class _AdoptionPageTwoState extends State<AdoptionPageTwo> {
       return;
     }
 
-    String _nome = _tNome.text;
-    String _telefone = _tTelefone.text.toString();
-    String _email = _tEmail.text;
-    String _whatsapp = _tWhatsapp.text.toString();
-
     Anunciante anunciante = new Anunciante();
 
-    anunciante.nome = _nome;
-    anunciante.telefone = _telefone;
-    anunciante.email = _email;
-    anunciante.whatsapp = _whatsapp;
+    anunciante.nome = _tNome.text;
+    anunciante.telefone = _tTelefone.text.toString();
+    anunciante.email = _tEmail.text;
+    anunciante.estado = _estadoSelecionado;
+    anunciante.cidade = _tCidade.text;
+    anunciante.whatsapp = _tWhatsapp.text.toString();
     
     push(context, AdoptionPageThree(widget.animal, anunciante));
   }
@@ -171,5 +214,17 @@ class _AdoptionPageTwoState extends State<AdoptionPageTwo> {
     .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
     .add(Validar.EMAIL, msg: "E-mail inválido")
     .valido(email);
+  } 
+
+  String _validarEstado(String estado) {
+   return Validador()
+    .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+    .valido(estado);
+  } 
+
+  String _validarCidade(String cidade) {
+   return Validador()
+    .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+    .valido(cidade);
   } 
 }

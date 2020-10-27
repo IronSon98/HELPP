@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:helpp/pages/adoption_animals.dart';
 import 'package:helpp/widgets/app_button.dart';
 import 'package:helpp/utils/nav.dart';
 import 'package:helpp/pages/adoption_page_one.dart';
@@ -21,7 +22,7 @@ class _MenuAnimalsState extends State<MenuAnimals> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("HELPP"),
+        title: Text("ANIMAIS"),
         centerTitle: true,
       ),
       body: _body(),
@@ -32,74 +33,74 @@ class _MenuAnimalsState extends State<MenuAnimals> {
     return Form(
       key: _formKey,
       child: Container (
-        decoration: BoxDecoration(color: Color(0xFFFFFFFF)),
         padding: EdgeInsets.all(16),
-        child: Center (
-          child: SingleChildScrollView ( 
-            child: Column (
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
+        child: SingleChildScrollView ( 
+          child: Row (
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
 
-                Padding(
-                  padding: EdgeInsets.only(bottom: 32),
-                  child: Image.asset(
-                    "imagens/logo_animais2.JPG", 
-                    width: 240, 
-                    height: 240,
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8),
+                child: GestureDetector(
+                  onTap: () {
+                    push(context, AdoptionAnimals());
+                  },
+                  child: CircleAvatar(
+                    backgroundColor: Color(0xFF2196F3),
+                    radius: 50,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                      Icon(
+                        Icons.list,
+                        size: 40,
+                        color: Color(0xFFFFFFFF),
+                      ),
+                      Text(
+                        "Adoção",
+                        style: TextStyle(
+                          color: Color(0xFFFFFFFF),
+                        ),
+                      )
+                    ],),
                   ),
                 ),
+              ),
 
-                AppButton(
-                  "ANUNCIAR ADOÇÃO", 
-                  onPressed: _onAnnounceAdoption,
+              SizedBox(height: 12,),
+
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8),
+                child: GestureDetector(
+                  onTap: () {
+                    push(context, ComplaintPageOne());
+                  },
+                  child: CircleAvatar(
+                    backgroundColor: Color(0xFF2196F3),
+                    radius: 50,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                      Icon(
+                        Icons.report,
+                        size: 40,
+                        color: Color(0xFFFFFFFF),
+                      ),
+                      Text(
+                        "Denúncia",
+                        style: TextStyle(
+                          color: Color(0xFFFFFFFF),
+                        ),
+                      )
+                    ],),
+                  ),
                 ),
+              ),
 
-                SizedBox(height: 12,),
-
-                AppButton(
-                  "ADOTAR ANIMAL",
-                  onPressed: _onAdoption,
-                ),
-
-                SizedBox(height: 12,),
-
-                AppButton(
-                  "DENUNCIAR MAUS TRATOS",
-                  onPressed: _onComplaint,
-                ),
-              ],
-            ),
+            ],
           ),
         ),
       ),
     );
   }
-
-  void _onAnnounceAdoption() async {
-    bool formOk = _formKey.currentState.validate();
-    if(!formOk) {
-      return;
-    }
-
-    push(context, AdoptionPageOne());
-  }
-
-  void _onAdoption() async {
-    bool formOk = _formKey.currentState.validate();
-    if(!formOk) {
-      return;
-    }
-
-    push(context, AdoptionPageOne());
-  }
-
-  void _onComplaint() async {
-    bool formOk = _formKey.currentState.validate();
-    if(!formOk) {
-      return;
-    }
-
-    push(context, ComplaintPageOne());
-  }
-
 }

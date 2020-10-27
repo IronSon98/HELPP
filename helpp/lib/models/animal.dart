@@ -4,6 +4,7 @@ class Animal {
   String _tipo;
   String _sexo;
   String _porte;
+  String _quantidade;
   String _nomeAnimal ;
   String _idade;
   String _raca;
@@ -28,6 +29,13 @@ class Animal {
   set porte(String value) {
     _porte = value;
   }
+
+  String get quantidade => _quantidade;
+
+  set quantidade(String value) {
+    _quantidade = value;
+  }
+
 
   String get nomeAnimal => _nomeAnimal;
 

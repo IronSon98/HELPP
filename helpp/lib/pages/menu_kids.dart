@@ -21,7 +21,7 @@ class _MenuKidsState extends State<MenuKids> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("HELPP"),
+        title: Text("CRIANÇAS E ADOLESCENTES"),
         centerTitle: true,
       ),
       body: _body(),

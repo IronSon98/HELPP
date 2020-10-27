@@ -11,10 +11,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  
-  final _formKey = GlobalKey<FormState>();
-
   String _emailUsuario = "";
+  List<String> itensMenu = ["Sair / Deslogar"];
 
 //Verifica se existe um usuário logado e o enviada para a tela inicial 
   Future _recuperarDadosUsuario() async {
@@ -27,6 +25,18 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  _escolhaMenuItem(String itemEscolhido){
+
+    switch(itemEscolhido ){
+
+      case "Sair / Deslogar" :
+        FirebaseAuth auth = FirebaseAuth.instance;
+        auth.signOut();
+        push(context, LoginPage());
+        break;
+    }
+  }
+
   @override
   void initState() {
     _recuperarDadosUsuario();
@@ -37,59 +47,158 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("HELPP"),
+        title:Text("HELPP",),
         centerTitle: true,
-        actions: <Widget> [
-          IconButton(icon: Icon(Icons.power_settings_new), onPressed: ()  {
-            FirebaseAuth auth = FirebaseAuth.instance;
-            auth.signOut();
-            push(context, LoginPage());
-          },)
-        ]
+        actions: <Widget>[
+          PopupMenuButton<String>(
+            onSelected: _escolhaMenuItem,
+            itemBuilder: (context){
+              return itensMenu.map((String item){
+                return PopupMenuItem<String>(
+                  value: item,
+                  child: Text(
+                    item,
+                    style: TextStyle(
+                      color: Color(0xFF2196F3),
+                    ),
+                  ),
+                );
+              }).toList();
+            },
+          )
+        ],
       ),
       body: _body(),
     );
   }
 
    _body() {
-    return Form(
-      key: _formKey,
-      child: Container (
-        decoration: BoxDecoration(color: Color(0xFFFFFFFF)),
+    return Container (
         padding: EdgeInsets.all(16),
         child: SingleChildScrollView ( 
           child: Column (
            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
 
-             
               GestureDetector(
-                child: Image.asset(
-                "imagens/logo_animais.JPG", 
-                width: 220, 
-                height: 220,
+                onTap: () {
+    
+                },
+                child: Card(
+                  child: Padding(
+                    padding: EdgeInsets.all(12),
+                    child: Row(children: <Widget>[
+                      SizedBox(
+                        width: 120,
+                        height: 120,
+                        child: Image.asset(
+                          "imagens/logotipo01_02.JPG", 
+                          width: 120, 
+                          height: 120,
+                        ),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.all(16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                            Text(
+                              "DISQUE DENÚNCIA",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF2196F3),
+                              ),
+                            ),
+                          ],)
+                        )
+                      ),
+                    ],)
+                  )
+                )
               ),
+
+              GestureDetector(
                 onTap: () {
                   push(context, MenuAnimals());
                 },
+                child: Card(
+                  child: Padding(
+                    padding: EdgeInsets.all(12),
+                    child: Row(children: <Widget>[
+                      SizedBox(
+                        width: 120,
+                        height: 120,
+                        child: Image.asset(
+                          "imagens/logotipo03_02.JPG", 
+                          width: 120, 
+                          height: 120,
+                        ),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.all(16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                            Text(
+                              "ANIMAIS",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF2196F3),
+                              ),
+                            ),
+                          ],)
+                        )
+                      ),
+                    ],)
+                  )
+                )
               ),
-            
-              GestureDetector(
-                child: Image.asset(
-                "imagens/logo_criancas.JPG", 
-                width: 240, 
-                height: 240,
-              ),
+             
+             GestureDetector(
                 onTap: () {
                   push(context, MenuKids());
                 },
+                child: Card(
+                  child: Padding(
+                    padding: EdgeInsets.all(12),
+                    child: Row(children: <Widget>[
+                      SizedBox(
+                        width: 120,
+                        height: 120,
+                        child: Image.asset(
+                          "imagens/logotipo02_01.JPG", 
+                          width: 120, 
+                          height: 120,
+                        ),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.all(16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                            Text(
+                              "CRIANÇAS E ADOLESCENTES",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF2196F3),
+                              ),
+                            ),
+                          ],)
+                        )
+                      ),
+                    ],)
+                  )
+                )
               ),
-              
-              
             ],
           ),
         ),
-      ),
-    );
+      );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:helpp/models/animal.dart';
+import 'package:helpp/utils/config.dart';
 import 'package:helpp/widgets/app_button.dart';
 import 'package:helpp/widgets/app_text.dart';
 import 'package:helpp/utils/nav.dart';
@@ -16,24 +17,29 @@ class _AdoptionPageOneState extends State<AdoptionPageOne> {
 
   //Informações do animal
   final _tAnimal = TextEditingController();
-  final _tSexo = TextEditingController();
-  final _tPorte = TextEditingController();
+  final _tQuantidade = TextEditingController();
   final _tNomeAnimal = TextEditingController();
   final _tIdade =  TextEditingController();
   final _tRaca = TextEditingController();
   final _tInformacoesAdicionais = TextEditingController();
 
   //Focus
-  final _focusSexo = FocusNode();
-  final _focusPorte = FocusNode();
   final _focusNomeAnimal = FocusNode();
   final _focusIdade = FocusNode();
   final _focusRaca = FocusNode();
   final _focusInformacoesAdicionais = FocusNode();
 
+  //Listas
+  List<DropdownMenuItem<String>> _listaItensSexo = List();
+  String _sexoSelecionado;
+  List<DropdownMenuItem<String>> _listaItensPorte = List();
+  String _porteSelecionado;
+
   @override
   void initState() {
     super.initState();
+    _listaItensSexo = Config.getSexos();
+    _listaItensPorte = Config.getPortes();
   }
 
   @override
@@ -41,6 +47,7 @@ class _AdoptionPageOneState extends State<AdoptionPageOne> {
     return Scaffold(
       appBar: AppBar(
         title:Text("HELPP",),
+        centerTitle: true,
       ),
       
       body: _body(),
@@ -52,16 +59,14 @@ class _AdoptionPageOneState extends State<AdoptionPageOne> {
       key: _formKey,
         child: Container (
           padding: EdgeInsets.all(16),
-          child: Center (
+        
             child: SingleChildScrollView (
               child: Column (
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
 
-                  SizedBox(height: 5,),
-
                   Text(
-                        "Informações do animal",
+                        "Informações do(s) animal(is)",
                         style: TextStyle(
                           color: Color(0xFF2196F3),
                           fontSize: 18
@@ -76,30 +81,66 @@ class _AdoptionPageOneState extends State<AdoptionPageOne> {
                   sizeText: 18,
                   validator: _validarAnimal,
                   keyboardType: TextInputType.text, 
-                  textInputAction: TextInputAction.next, 
-                  nextFocus: _focusSexo),
+                  textInputAction: TextInputAction.next),
                   
                   SizedBox(height: 12,),
 
-                  AppText("Sexo*", 
-                  "Digite o sexo do animal", 
-                  controller: _tSexo,
-                  sizeText: 18, 
-                  validator: _validarSexo, 
-                  keyboardType: TextInputType.text,
-                  focusNode: _focusSexo, 
-                  textInputAction: TextInputAction.next, 
-                  nextFocus: _focusPorte),
+                  Row (
+                    children: <Widget>[
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.all(8),
+                          child: DropdownButtonFormField(
+                            value: _sexoSelecionado,
+                            hint: Text("Sexo*"),
+                            style: TextStyle (
+                              color: Color(0xFF2196F3),
+                              fontSize: 18
+                            ),
+                            items: _listaItensSexo,
+                            validator: _validarSexo,
+                            onChanged: (valor) {
+                              setState(() {
+                                _sexoSelecionado = valor;
+                              });
+                            }
+                          ),
+                        ),
+                      ),
+
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.all(8),
+                          child: DropdownButtonFormField(
+                            value: _porteSelecionado,
+                            hint: Text("Porte*"),
+                            style: TextStyle (
+                              color: Color(0xFF2196F3),
+                              fontSize: 18
+                            ),
+                            items: _listaItensPorte,
+                            validator: _validarPorte,
+                            onChanged: (valor) {
+                              setState(() {
+                                _porteSelecionado = valor;
+                              });
+                            }
+                          ),
+                        ),
+                      ),
+                    ]
+
+                  ),
+                    
                   
                   SizedBox(height: 12,),
 
-                  AppText("Porte*", 
-                  "Digite o porte do animal", 
-                  controller: _tPorte, 
+                  AppText("Quantidade*", 
+                  "Digite a quantidade de animais", 
+                  controller: _tQuantidade, 
                   sizeText: 18,
-                  validator: _validarPorte,
+                  validator: _validarQuantidade,
                   keyboardType: TextInputType.text,
-                  focusNode: _focusPorte,  
                   textInputAction: TextInputAction.next, 
                   nextFocus: _focusNomeAnimal),
                   
@@ -110,7 +151,7 @@ class _AdoptionPageOneState extends State<AdoptionPageOne> {
                   controller: _tNomeAnimal, 
                   sizeText: 18,
                   keyboardType: TextInputType.text,
-                  focusNode: _focusNomeAnimal,  
+                  focusNode: _focusNomeAnimal,
                   textInputAction: TextInputAction.next, 
                   nextFocus: _focusIdade),
                   
@@ -142,7 +183,9 @@ class _AdoptionPageOneState extends State<AdoptionPageOne> {
                   "Digite informações adicionais", 
                   controller: _tInformacoesAdicionais, 
                   sizeText: 18,
+                  validator: _validarInformacoesAdicionais,
                   keyboardType: TextInputType.text,
+                  maxLines: null,
                   focusNode: _focusInformacoesAdicionais),
                   
                   SizedBox(height: 22,),
@@ -154,7 +197,7 @@ class _AdoptionPageOneState extends State<AdoptionPageOne> {
                 ],
               ),
             ),
-          ),
+          
         ),
     );
   }
@@ -167,8 +210,9 @@ class _AdoptionPageOneState extends State<AdoptionPageOne> {
     }
 
     String _tipo = _tAnimal.text;
-    String _sexo = _tSexo.text;
-    String _porte = _tPorte.text;
+    String _sexo = _sexoSelecionado;
+    String _porte = _porteSelecionado;
+    String _quantidade = _tQuantidade.text;
     String _nomeAnimal = _tNomeAnimal.text;
     String _idade = _tIdade.text;
     String _raca = _tRaca.text;
@@ -179,6 +223,7 @@ class _AdoptionPageOneState extends State<AdoptionPageOne> {
     animal.tipo = _tipo;
     animal.sexo = _sexo;
     animal.porte = _porte;
+    animal.quantidade = _quantidade;
     animal.nomeAnimal = _nomeAnimal;
     animal.idade = _idade;
     animal.raca = _raca;
@@ -204,5 +249,17 @@ class _AdoptionPageOneState extends State<AdoptionPageOne> {
     return Validador()
     .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
     .valido(porte);
+  } 
+
+  String _validarQuantidade(String quantidade) {
+    return Validador()
+    .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+    .valido(quantidade);
+  } 
+
+  String _validarInformacoesAdicionais(String informacoesAdicionais) {
+    return Validador()
+    .maxLength(300, msg: "Máximo de 300 caracteres")
+    .valido(informacoesAdicionais);
   } 
 }
