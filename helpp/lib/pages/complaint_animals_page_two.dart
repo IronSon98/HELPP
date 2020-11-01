@@ -1,34 +1,33 @@
-import 'package:flutter/material.dart';
-import 'package:helpp/models/animal.dart';
-import 'package:helpp/models/anunciante.dart';
-import 'package:helpp/models/anuncio.dart';
-import 'package:helpp/widgets/app_button.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
+import 'package:helpp/widgets/app_button.dart';
+import 'package:helpp/models/email.dart';
+import 'package:helpp/models/maustratos.dart';
+import 'package:image_picker/image_picker.dart';
 
-class AdoptionPageThree extends StatefulWidget {
+class ComplaintAnimalsPageTwo extends StatefulWidget {
 
-  Animal animal;
-  Anunciante anunciante;
+   Maustratos denuncia;
   
-  AdoptionPageThree(this.animal, this.anunciante);
+   ComplaintAnimalsPageTwo(this.denuncia);
 
   @override
-  _AdoptionPageThreeState createState() => _AdoptionPageThreeState();
+  _ComplaintAnimalsPageTwoState createState() => _ComplaintAnimalsPageTwoState();
 }
 
-class _AdoptionPageThreeState extends State<AdoptionPageThree> {
+class _ComplaintAnimalsPageTwoState extends State<ComplaintAnimalsPageTwo> {
   final _formKey = GlobalKey<FormState>();
+  String _text = '';
+  var email = Email('helpp.denuncia@gmail.com', 'Anatnas23111998');
   List<File> _listaImagens = List();
   String _emailUsuarioLogado;
   File imagemSelecionada;
   List<String> origemFotos = [];
-  Anuncio _anuncio;
   BuildContext _dialogContext;
-  
+
   Future _recuperarImagem(bool camera) async {
     if (camera) {
       imagemSelecionada = await ImagePicker.pickImage(source: ImageSource.camera);
@@ -54,8 +53,8 @@ class _AdoptionPageThreeState extends State<AdoptionPageThree> {
       String nomeImagem = DateTime.now().millisecondsSinceEpoch.toString();
 
       StorageReference arquivo = pastaRaiz
-      .child("adoption_animals")
-      .child(_anuncio.id)
+      .child("complaint_animals")
+      .child(widget.denuncia.id)
       .child(nomeImagem);
 
       //Fazer upload da imagem
@@ -65,7 +64,7 @@ class _AdoptionPageThreeState extends State<AdoptionPageThree> {
       StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
 
       String url = await taskSnapshot.ref.getDownloadURL();
-      _anuncio.fotos.add(url);
+      widget.denuncia.fotos.add(url);
     }
   }
 
@@ -87,22 +86,25 @@ class _AdoptionPageThreeState extends State<AdoptionPageThree> {
             children: <Widget>[
             CircularProgressIndicator(),
             SizedBox(height: 20,),
-            Text("Salvando anúncio...")
+            Text("Enviando denúncia...")
           ],),
         );
       }
     );
   }
 
+  //Informações da denúncia
+  String _mensagem = '';
+  String _assunto = '';
+  String _destinatario = '';
+
   @override
   void initState() {
     super.initState();
     _recuperarDadosUsuario();
-
-    _anuncio = Anuncio.gerarId();
   }
 
-  @override
+ @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -126,13 +128,6 @@ class _AdoptionPageThreeState extends State<AdoptionPageThree> {
 
               FormField<List>(
                 initialValue: _listaImagens,
-                validator: (imagens) {
-                  if(imagens.length == 0) {
-                    return "Necessário selecionar uma imagem!";
-                  }
-
-                  return null;
-                },
                 builder: (state) {
                   return Column(children: <Widget>[
                     Container(
@@ -233,8 +228,8 @@ class _AdoptionPageThreeState extends State<AdoptionPageThree> {
 
               
               AppButton(
-                "PUBLICAR",  
-                onPressed: _publishAdoption,
+                "DENUNCIAR",  
+                onPressed: _onComplaint,
               ),
             ],
           ),
@@ -243,27 +238,56 @@ class _AdoptionPageThreeState extends State<AdoptionPageThree> {
     );
   }
 
-  void _publishAdoption() async {
+  void _onComplaint() async {
     // Validação do formulário
     bool formOk = _formKey.currentState.validate();
     if(!formOk) {
       return;
     }
 
-    _anuncio.tipo = widget.animal.tipo;
-    _anuncio.sexo = widget.animal.sexo;
-    _anuncio.porte = widget.animal.porte;
-    _anuncio.quantidade = widget.animal.quantidade;
-    _anuncio.nomeAnimal = widget.animal.nomeAnimal;
-    _anuncio.idade = widget.animal.idade;
-    _anuncio.raca = widget.animal.raca;
-    _anuncio.informacoesAdicionais = widget.animal.informacoesAdicionais;
-    _anuncio.nome = widget.anunciante.nome;
-    _anuncio.telefone = widget.anunciante.telefone;
-    _anuncio.email = widget.anunciante.email;
-    _anuncio.estado = widget.anunciante.estado;
-    _anuncio.cidade = widget.anunciante.cidade;
-    _anuncio.whatsapp = widget.anunciante.whatsapp;
+    String _imagens;
+
+    for(var imagem in widget.denuncia.fotos) {
+      _imagens = imagem + "\n";
+    }
+
+    _mensagem = "ENDEREÇO DA OCORRÊNCIA \n" + 
+    "Tipo de endereço: " + widget.denuncia.tipoDeEndereco + "\n" + 
+    "Estado:" + widget.denuncia.estado + "\n" +
+    "Município: " + widget.denuncia.municipio + "\n" +
+    "Endereço: " + widget.denuncia.endereco + "\n" +
+    "Número: " + widget.denuncia.numero + "\n" +
+    "CEP: " + widget.denuncia.cep + "\n\n" +
+    "INFORMAÇÕES DA OCORRÊNCIA \n" +
+    "Data do fato: " + widget.denuncia.dataDoFato + "\n" +
+    "Hora aproximada: " + widget.denuncia.horaDoFato + "\n" +
+    "Relato do fato: " + widget.denuncia.relatoDoFato + "\n" +
+    "Tipo de crime: " + widget.denuncia.tipoDeCrime + "\n" +
+    "Classificação do animal: " + widget.denuncia.classificacaoDoAnimal + "\n" +
+    "Porte do animal: " + widget.denuncia.porte + "\n" +
+    "Quantidade de animais: " + widget.denuncia.quantidade + "\n" +
+    "Imagens: " + _imagens + "\n"
+    "INFORMAÇÕES DO DENUNCIANTE \n" +
+    "Nome: " + widget.denuncia.nomeDenunciante + "\n" +
+    "CPF: " + widget.denuncia.cpf + "\n" +
+    "Telefone: " + widget.denuncia.telefone + "\n" +
+    "E-mail: " + widget.denuncia.email + "\n" +
+    "Estado: " + widget.denuncia.estadoDenunciante + "\n" +
+    "Município: " + widget.denuncia.municipioDenunciante + "\n" +
+    "Endereço: " + widget.denuncia.enderecoDenunciante + "\n" +
+    "Número: " + widget.denuncia.numeroDenunciante + "\n" +
+    "CEP: " + widget.denuncia.cepDenunciante + "\n\n" +
+    "INFORMAÇÕES DO INFRATOR \n" + 
+    "Nome: " + widget.denuncia.nomeDenunciado + "\n"
+    "Descrição: " + widget.denuncia.descricao + "\n\n"
+    "INFORMAÇÕES ADICIONAIS \n" +
+    widget.denuncia.informacoesAdicionais + "\n\n" +
+    "OBS.: PRÓXIMAS INFORMAÇÕES REFERENTE A ESSA DENÚNCIA, ENVIAR PARA O E-MAIL DO DENUNCIANTE!";
+
+    _assunto = "Denúncia de maus tratos contra animais";
+    _destinatario = "ironcsantanafilho@gmail.com";
+
+    _sendEmail(_mensagem, _destinatario, _assunto);
     
     //Configura dialog context
     _dialogContext = context;
@@ -278,23 +302,24 @@ class _AdoptionPageThreeState extends State<AdoptionPageThree> {
     //Salvar anuncio no Firestore
     Firestore db = Firestore.instance;
 
-    db.collection("adoption_animals")
+    db.collection("complaint_animals")
     .document(_emailUsuarioLogado)
-    .collection("meus_anuncios")
-    .document(_anuncio.id)
+    .collection("denuncias")
+    .document(widget.denuncia.id)
     .setData(
-     _anuncio.toMap()
-    );
-
-    db.collection("adoption_animals_public")
-    .document(_anuncio.id)
-    .setData(
-      _anuncio.toMap()
+     widget.denuncia.toMap()
     );
 
     Navigator.pop(_dialogContext);
     Navigator.pop(context);
     Navigator.pop(context);
-    Navigator.pop(context);
+  }
+
+  void _sendEmail(String mensagem, String destinatario, String assunto) async {
+    bool result = await email.sendMessage(mensagem, destinatario, assunto);
+
+    setState(() {
+      _text = result ? 'Enviado.' : 'Não enviado.';
+    });
   }
 }

@@ -1,5 +1,9 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Maustratos {
+
+  String _id;
 
   //Endereço
   String _tipoDeEndereco;
@@ -17,6 +21,7 @@ class Maustratos {
   String _classificacaoDoAnimal;
   String _porte;
   String _quantidade;
+  List<String> _fotos;
 
   //Informações do denunciante
   String _nomeDenunciante;
@@ -37,6 +42,84 @@ class Maustratos {
   String _informacoesAdicionais;
 
   Maustratos();
+
+  Maustratos.fromDocumentSnapshot(DocumentSnapshot documentSnapshot) {
+    this.id = documentSnapshot.documentID;
+    this.tipoDeEndereco = documentSnapshot["tipoDeEndereco"];
+    this.estado = documentSnapshot["estado"];
+    this.municipio = documentSnapshot["municipio"];
+    this.endereco = documentSnapshot["endereco"];
+    this.numero = documentSnapshot["numero"];
+    this.cep = documentSnapshot["cep"];
+    this.dataDoFato = documentSnapshot["dataDoFato"];
+    this.horaDoFato = documentSnapshot["horaDoFato"];
+    this.relatoDoFato = documentSnapshot["relatoDoFato"];
+    this.tipoDeCrime = documentSnapshot["tipoDeCrime"];
+    this.classificacaoDoAnimal = documentSnapshot["classificacaoDoAnimal"];
+    this.porte = documentSnapshot["porte"];
+    this.quantidade = documentSnapshot["quantidade"];
+    this.fotos = List<String>.from(documentSnapshot["fotos"]);
+    this.nomeDenunciante = documentSnapshot["nomeDenunciante"];
+    this.cpf = documentSnapshot["cpf"];
+    this.telefone = documentSnapshot["telefone"];
+    this.email = documentSnapshot["email"];
+    this.estadoDenunciante = documentSnapshot["estadoDenunciante"];
+    this.municipioDenunciante = documentSnapshot["municipioDenunciante"];
+    this.enderecoDenunciante = documentSnapshot["enderecoDenunciante"];
+    this.numeroDenunciante = documentSnapshot["numeroDenunciante"];
+    this.cepDenunciante = documentSnapshot["cepDenunciante"];
+    this.nomeDenunciado = documentSnapshot["nomeDenunciado"];
+    this.descricao = documentSnapshot["descricao"];
+    this.informacoesAdicionais = documentSnapshot["informacoesAdicionais"];
+  }
+
+  Maustratos.gerarId(){
+    Firestore db = Firestore.instance;
+    CollectionReference anuncios = db.collection("complaint_animals");
+    this.id = anuncios.document().documentID;
+
+    this.fotos = [];
+  }
+
+  Map<String, dynamic> toMap() {
+    Map<String, dynamic> map = {
+      "id:" : this.id,
+      "tipoDeEndereco" : this.tipoDeEndereco,
+      "estado" : this.estado,
+      "municipio" : this.municipio,
+      "endereco" : this.endereco,
+      "numero" : this.numero,
+      "cep" : this.cep,
+      "dataDoFato" : this.dataDoFato,
+      "horaDoFato": this.horaDoFato,
+      "realtoDoFato" : this.relatoDoFato,
+      "tipoDeCrime" : this.tipoDeCrime,
+      "classificacaoDoAnimal" : this.classificacaoDoAnimal,
+      "porte" : this.porte,
+      "quantidade" : this.quantidade,
+      "fotos" : this.fotos,
+      "nomeDenunciante" : this.nomeDenunciante,
+      "cpf" : this.cpf,
+      "telefone" : this.telefone,
+      "email" : this.email,
+      "estadoDenunciante" : this.estadoDenunciante,
+      "municipioDenunciante" : this.municipioDenunciante,
+      "enderecoDenunciante" : this.enderecoDenunciante,
+      "numeroDenunciante" : this.numeroDenunciante,
+      "cepDenunciante" : this.cepDenunciante,
+      "nomeDenunciado" : this.nomeDenunciado,
+      "descricao" : this.descricao,
+      "informacoesAdicionais" : this.informacoesAdicionais,
+    };
+
+    return map;
+  }
+
+  String get id => _id;
+
+   set id(String value) {
+    _id = value;
+  }
 
   String get tipoDeEndereco => _tipoDeEndereco;
 
@@ -114,6 +197,12 @@ class Maustratos {
 
   set quantidade(String value) {
     _quantidade = value;
+  }
+
+   List<String> get fotos => _fotos;
+
+  set fotos(List<String> value) {
+    _fotos = value;
   }
 
   String get nomeDenunciante => _nomeDenunciante;

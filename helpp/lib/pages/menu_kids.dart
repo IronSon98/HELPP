@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:helpp/widgets/app_button.dart';
 import 'package:helpp/utils/nav.dart';
 import 'package:helpp/pages/adoption_page_one.dart';
-import 'package:helpp/pages/complaint_page_one.dart';
+import 'package:helpp/pages/complaint_animals_page_one.dart';
 
 class MenuKids extends StatefulWidget {
   @override
@@ -83,7 +83,7 @@ class _MenuKidsState extends State<MenuKids> {
       return;
     }
 
-    push(context, ComplaintPageOne());
+    push(context, ComplaintAnimalsPageOne());
   }
 
 }

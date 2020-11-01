@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:helpp/pages/adoption_animals.dart';
-import 'package:helpp/widgets/app_button.dart';
+import 'package:helpp/pages/complaint_animals.dart';
 import 'package:helpp/utils/nav.dart';
-import 'package:helpp/pages/adoption_page_one.dart';
-import 'package:helpp/pages/complaint_page_one.dart';
 
 class MenuAnimals extends StatefulWidget {
   @override
@@ -73,7 +71,7 @@ class _MenuAnimalsState extends State<MenuAnimals> {
                 padding: EdgeInsets.symmetric(horizontal: 8),
                 child: GestureDetector(
                   onTap: () {
-                    push(context, ComplaintPageOne());
+                    push(context, ComplaintAnimals());
                   },
                   child: CircleAvatar(
                     backgroundColor: Color(0xFF2196F3),

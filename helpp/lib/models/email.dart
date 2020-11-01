@@ -12,7 +12,7 @@ class Email {
 
   Future<bool> sendMessage(String mensagem, String destinatario, String assunto) async {
     final message = Message()
-      ..from = Address(_username, 'Nome')
+      ..from = Address(_username, 'HELPP')
       ..recipients.add(destinatario)
       ..subject = assunto
       ..text = mensagem;

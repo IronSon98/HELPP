@@ -5,17 +5,18 @@ import 'package:helpp/widgets/app_button.dart';
 import 'package:helpp/widgets/app_text.dart';
 import 'package:helpp/utils/nav.dart';
 import 'package:helpp/models/email.dart';
-import 'package:helpp/pages/complaint_page_two.dart';
-import 'package:helpp/models/maustratos.dart';
+import 'package:helpp/pages/complaint_animals_page_two.dart';
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:validadores/validadores.dart';
 
-class ComplaintPageOne extends StatefulWidget {
+class ComplaintAnimalsPageOne extends StatefulWidget {
   @override
-  _ComplaintPageOneState createState() => _ComplaintPageOneState();
+  _ComplaintAnimalsPageOneState createState() => _ComplaintAnimalsPageOneState();
 }
 
-class _ComplaintPageOneState extends State<ComplaintPageOne> {
+class _ComplaintAnimalsPageOneState extends State<ComplaintAnimalsPageOne> {
+
+  Maustratos _denuncia;
   
   String _text = '';
   var email = Email('helpp.denuncia@gmail.com', 'Anatnas23111998');
@@ -86,6 +87,7 @@ class _ComplaintPageOneState extends State<ComplaintPageOne> {
   @override
   void initState() {
     super.initState();
+    _denuncia = Maustratos.gerarId();
   }
 
   @override
@@ -488,39 +490,37 @@ class _ComplaintPageOneState extends State<ComplaintPageOne> {
       return;
     }
 
-    Maustratos denuncia = new Maustratos();
+    _denuncia.tipoDeEndereco = _tTipoDeEndereco.text;
+    _denuncia.estado = _tEstado.text;
+    _denuncia.municipio = _tMunicipio.text;
+    _denuncia.endereco = _tEndereco.text;
+    _denuncia.numero = _tNumero.text;
+    _denuncia.cep = _tCep.text.toString();
 
-    denuncia.tipoDeEndereco = _tTipoDeEndereco.text;
-    denuncia.estado = _tEstado.text;
-    denuncia.municipio = _tMunicipio.text;
-    denuncia.endereco = _tEndereco.text;
-    denuncia.numero = _tNumero.text;
-    denuncia.cep = _tCep.text.toString();
+    _denuncia.dataDoFato = _tDataDoFato.text.toString();
+    _denuncia.horaDoFato = _tHoraDoFato.text.toString();
+    _denuncia.relatoDoFato = _tRelatoDoFato.text;
+    _denuncia.tipoDeCrime = _tTipoDeCrime.text;
+    _denuncia.classificacaoDoAnimal = _tClassificacaoDoAnimal.text;
+    _denuncia.porte = _tPorte.text;
+    _denuncia.quantidade = _tQuantidade.text;
 
-    denuncia.dataDoFato = _tDataDoFato.text.toString();
-    denuncia.horaDoFato = _tHoraDoFato.text.toString();
-    denuncia.relatoDoFato = _tRelatoDoFato.text;
-    denuncia.tipoDeCrime = _tTipoDeCrime.text;
-    denuncia.classificacaoDoAnimal = _tClassificacaoDoAnimal.text;
-    denuncia.porte = _tPorte.text;
-    denuncia.quantidade = _tQuantidade.text;
+    _denuncia.nomeDenunciante = _tNomeDenunciante.text;
+    _denuncia.cpf = _tCpf.text.toString();
+    _denuncia.telefone = _tTelefone.text.toString();
+    _denuncia.email = _tEmail.text;
+    _denuncia.estadoDenunciante = _tEstadoDenunciante.text;
+    _denuncia.municipioDenunciante = _tMunicipioDenunciante.text;
+    _denuncia.enderecoDenunciante = _tEnderecoDenunciante.text;
+    _denuncia.numeroDenunciante = _tNumeroDenunciante.text;
+    _denuncia.cepDenunciante = _tCepDenunciante.text.toString();
 
-    denuncia.nomeDenunciante = _tNomeDenunciante.text;
-    denuncia.cpf = _tCpf.text.toString();
-    denuncia.telefone = _tTelefone.text.toString();
-    denuncia.email = _tEmail.text;
-    denuncia.estadoDenunciante = _tEstadoDenunciante.text;
-    denuncia.municipioDenunciante = _tMunicipioDenunciante.text;
-    denuncia.enderecoDenunciante = _tEnderecoDenunciante.text;
-    denuncia.numeroDenunciante = _tNumeroDenunciante.text;
-    denuncia.cepDenunciante = _tCepDenunciante.text.toString();
+    _denuncia.nomeDenunciado = _tNomeDenunciado.text;
+    _denuncia.descricao = _tDescricao.text;
 
-    denuncia.nomeDenunciado = _tNomeDenunciado.text;
-    denuncia.descricao = _tDescricao.text;
-
-    denuncia.informacoesAdicionais = _tInformacoesAdicionais.text;
+    _denuncia.informacoesAdicionais = _tInformacoesAdicionais.text;
     
-    push(context, ComplaintPageTwo(denuncia));
+    push(context, ComplaintAnimalsPageTwo(_denuncia));
   }
 
   String _validarTipoDeEndereco(String tipoDeEndereco) {
