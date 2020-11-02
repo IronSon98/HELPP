@@ -46,17 +46,29 @@ class _DetailsComplaintAnimalsState extends State<DetailsComplaintAnimals> {
       body: Stack(children: <Widget>[
 
         ListView(children: <Widget>[
-          SizedBox(
-            height: 250,
-            child: Carousel (
-              images: _getListaImagens(),
-              dotSize: 8,
-              dotBgColor: Colors.transparent,
-              dotColor: Colors.white,
-              autoplay: false,
-              dotIncreasedColor: Color(0xFF2196F3),
+
+          if(_denuncia.fotos.length > 0)
+            SizedBox(
+              height: 250,
+              child: Carousel (
+                images: _getListaImagens(),
+                dotSize: 8,
+                dotBgColor: Colors.transparent,
+                dotColor: Colors.white,
+                autoplay: false,
+                dotIncreasedColor: Color(0xFF2196F3),
+              ),
             ),
-          ),
+            
+          if(_denuncia.fotos.isEmpty)
+            SizedBox(
+                width: 250,
+                height: 250,
+                child: Image.asset(
+                  "imagens/sem_foto.JPG",
+                  fit: BoxFit.cover,
+                ),
+              ),
 
           Container(
             padding: EdgeInsets.all(16),
@@ -98,7 +110,7 @@ class _DetailsComplaintAnimalsState extends State<DetailsComplaintAnimals> {
                 "Estado: ${_denuncia.estado}\n" +
                 "Município: ${_denuncia.municipio}\n" +
                 "Endereço: ${_denuncia.endereco}\n" +
-                "Número: ${_denuncia.numero}\n",
+                "Número: ${_denuncia.numero}",
                 style: TextStyle(
                   fontSize: 18
                 ),
@@ -158,7 +170,7 @@ class _DetailsComplaintAnimalsState extends State<DetailsComplaintAnimals> {
                 "Estado: ${_denuncia.estadoDenunciante}\n" +
                 "Município: ${_denuncia.municipioDenunciante}\n" +
                 "Endereço: ${_denuncia.enderecoDenunciante}\n" +
-                "Número: ${_denuncia.numeroDenunciante}\n",
+                "Número: ${_denuncia.numeroDenunciante}",
                 style: TextStyle(
                   fontSize: 18
                 ),
@@ -178,6 +190,7 @@ class _DetailsComplaintAnimalsState extends State<DetailsComplaintAnimals> {
                   child: Divider(),
                 ),
 
+              if (_denuncia.nomeDenunciado.length > 0 || _denuncia.descricao.length > 0)
                 Text(
                   "Informações do infrator",
                   style: TextStyle(
@@ -202,12 +215,13 @@ class _DetailsComplaintAnimalsState extends State<DetailsComplaintAnimals> {
                     ),
                   ),
 
-              if(_denuncia.informacoesAdicionais.length > 0)
+              if(_denuncia.informacoesAdicionais.length > 0) 
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 16),
                   child: Divider(),
                 ),
 
+              if(_denuncia.informacoesAdicionais.length > 0) 
                 Text(
                   "Informações adicionais",
                   style: TextStyle(
@@ -215,13 +229,13 @@ class _DetailsComplaintAnimalsState extends State<DetailsComplaintAnimals> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-
                 Text(
-                  "Nome: ${_denuncia.informacoesAdicionais}\n",
+                  "${_denuncia.informacoesAdicionais}\n",
                   style: TextStyle(
                     fontSize: 18
                   ),
                 ),
+              
 
             ],),
           )

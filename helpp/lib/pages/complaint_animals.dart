@@ -51,7 +51,7 @@ class _ComplaintAnimalsState extends State<ComplaintAnimals> {
 
     var carregandoDados =  Center (
       child: Column(children: <Widget>[
-        Text("Carregando anúncios"),
+        Text("Carregando denúncias"),
         CircularProgressIndicator()
       ],),
     );
@@ -68,52 +68,58 @@ class _ComplaintAnimalsState extends State<ComplaintAnimals> {
           push(context, ComplaintAnimalsPageOne());
         },
       ),
-      body: StreamBuilder(
-        stream: _controller.stream,
-        builder: (context, snapshot) {
-          switch(snapshot.connectionState) {
-            case ConnectionState.none:
-            case ConnectionState.waiting:
-              return carregandoDados;
-              break;
-            case ConnectionState.active:
-            case ConnectionState.done:
+      body: Container(
+        child: Column (
+          children: <Widget>[
+            StreamBuilder(
+              stream: _controller.stream,
+              builder: (context, snapshot) {
+                switch(snapshot.connectionState) {
+                  case ConnectionState.none:
+                  case ConnectionState.waiting:
+                    return carregandoDados;
+                    break;
+                  case ConnectionState.active:
+                  case ConnectionState.done:
 
-              QuerySnapshot querySnapshot = snapshot.data;
+                    QuerySnapshot querySnapshot = snapshot.data;
 
-              if(querySnapshot.documents.length == 0) {
-                return Container(
-                  padding: EdgeInsets.all(25),
-                  child: Text("Nenhuma denúncia disponível!", style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold
-                  ),),
-                );
-              }
+                    if(querySnapshot.documents.length == 0) {
+                      return Container(
+                        padding: EdgeInsets.all(25),
+                        child: Text("Nenhuma denúncia disponível!", style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold
+                        ),),
+                      );
+                    }
 
-              return Expanded(
-                child: ListView.builder(
-                  itemCount: querySnapshot.documents.length,
-                  itemBuilder: (_, indice) {
+                    return Expanded(
+                      child: ListView.builder(
+                        itemCount: querySnapshot.documents.length,
+                        itemBuilder: (_, indice) {
 
-                    List<DocumentSnapshot> denuncias = querySnapshot.documents.toList();
-                    DocumentSnapshot documentSnapshot =  denuncias[indice];
-                    Maustratos denuncia = Maustratos.fromDocumentSnapshot(documentSnapshot);
+                          List<DocumentSnapshot> denuncias = querySnapshot.documents.toList();
+                          DocumentSnapshot documentSnapshot =  denuncias[indice];
+                          Maustratos denuncia = Maustratos.fromDocumentSnapshot(documentSnapshot);
 
-                    return ItemComplaintAnimals(
-                      denuncia: denuncia,
-                      onTapItem: () {
-                        push(context, DetailsComplaintAnimals(denuncia));
-                      },
+                          return ItemComplaintAnimals(
+                            denuncia: denuncia,
+                            onTapItem: () {
+                              push(context, DetailsComplaintAnimals(denuncia));
+                            },
+                          );
+
+                        }
+                      ),
                     );
-
-                  }
-                ),
-              );
-          }
-          return Container();
-        }
-      ),
+                }
+                return Container();
+              }
+            ),
+          ],
+        )
+      )
     );
   }
 } 

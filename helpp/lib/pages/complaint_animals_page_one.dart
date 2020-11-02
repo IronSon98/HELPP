@@ -8,6 +8,7 @@ import 'package:helpp/models/email.dart';
 import 'package:helpp/pages/complaint_animals_page_two.dart';
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:validadores/validadores.dart';
+import 'package:helpp/utils/config.dart';
 
 class ComplaintAnimalsPageOne extends StatefulWidget {
   @override
@@ -24,8 +25,6 @@ class _ComplaintAnimalsPageOneState extends State<ComplaintAnimalsPageOne> {
   final _formKey = GlobalKey<FormState>();
 
   //Endereço
-  final _tTipoDeEndereco = TextEditingController();
-  final _tEstado = TextEditingController();
   final _tMunicipio = TextEditingController();
   final _tEndereco = TextEditingController();
   final _tNumero = TextEditingController();
@@ -35,9 +34,6 @@ class _ComplaintAnimalsPageOneState extends State<ComplaintAnimalsPageOne> {
   final _tDataDoFato = TextEditingController();
   final _tHoraDoFato = TextEditingController();
   final _tRelatoDoFato = TextEditingController();
-  final _tTipoDeCrime = TextEditingController();
-  final _tClassificacaoDoAnimal = TextEditingController();
-  final _tPorte = TextEditingController();
   final _tQuantidade = TextEditingController();
 
   //Informações do denunciante
@@ -45,7 +41,6 @@ class _ComplaintAnimalsPageOneState extends State<ComplaintAnimalsPageOne> {
   final _tCpf = TextEditingController();
   final _tTelefone = TextEditingController();
   final _tEmail = TextEditingController();
-  final _tEstadoDenunciante = TextEditingController();
   final _tMunicipioDenunciante = TextEditingController();
   final _tEnderecoDenunciante = TextEditingController();
   final _tNumeroDenunciante = TextEditingController();
@@ -59,24 +54,16 @@ class _ComplaintAnimalsPageOneState extends State<ComplaintAnimalsPageOne> {
   final _tInformacoesAdicionais = TextEditingController();
 
   //Focus
-  final _focusEstado = FocusNode();
-  final _focusMunicipio = FocusNode();
   final _focusEndereco = FocusNode();
   final _focusNumero = FocusNode();
   final _focusCep = FocusNode();
   final _focusDataDoFato = FocusNode();
   final _focusHoraDoFato = FocusNode();
   final _focusRelatoDoFato = FocusNode();
-  final _focusTipoDeCrime = FocusNode();
-  final _focusClassificacaoDoAnimal = FocusNode();
-  final _focusPorte = FocusNode();
-  final _focusQuantidade = FocusNode();
   final _focusNomeDenunciante = FocusNode();
   final _focusCpf = FocusNode();
   final _focusTelefone = FocusNode();
   final _focusEmail = FocusNode();
-  final _focusEstadoDenunciante = FocusNode();
-  final _focusMunicipioDenunciante = FocusNode();
   final _focusEnderecoDenunciante = FocusNode();
   final _focusNumeroDenunciante = FocusNode();
   final _focusCepDenunciante = FocusNode();
@@ -84,10 +71,28 @@ class _ComplaintAnimalsPageOneState extends State<ComplaintAnimalsPageOne> {
   final _focusDescricao = FocusNode();
   final _focusInformacoesAdicionais = FocusNode();
 
+  //Listas
+  List<DropdownMenuItem<String>> _listaItensEstado = List();
+  String _estadoSelecionado;
+  String _estadoDenuncianteSelecionado;
+  List<DropdownMenuItem<String>> _listaItensTipoDeEndereco = List();
+  String _tipoDeEnderecoSelecionado;
+  List<DropdownMenuItem<String>> _listaItensPorte = List();
+  String _porteSelecionado;
+  List<DropdownMenuItem<String>> _listaItensClassificacao = List();
+  String _classificacaoSelecionada;
+  List<DropdownMenuItem<String>> _listaItensTipoDeCrime = List();
+  String _tipoDeCrimeSelecionado;
+
   @override
   void initState() {
     super.initState();
     _denuncia = Maustratos.gerarId();
+    _listaItensEstado = Config.getEstados();
+    _listaItensTipoDeEndereco = Config.getTiposDeEnderecos();
+    _listaItensPorte = Config.getPortes();
+    _listaItensClassificacao = Config.getClassificacoes();
+    _listaItensTipoDeCrime = Config.getTiposDeCrimes();
   }
 
   @override
@@ -119,33 +124,62 @@ class _ComplaintAnimalsPageOneState extends State<ComplaintAnimalsPageOne> {
                         "Edereço da ocorrência",
                         style: TextStyle(
                           color: Color(0xFF2196F3),
-                          fontSize: 18
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold
                         )
                       ),
 
                   SizedBox(height: 12,),
 
-                  AppText("Tipo de endereço*", 
-                  "Selecione o tipo de endereço", 
-                  controller: _tTipoDeEndereco, 
-                  sizeText: 18,
-                  validator: _validarTipoDeEndereco,
-                  keyboardType: TextInputType.text, 
-                  textInputAction: TextInputAction.next, 
-                  nextFocus: _focusEstado),
-                  
-                  SizedBox(height: 12,),
+                  Row (
+                    children: <Widget>[
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.all(8),
+                          child: DropdownButtonFormField(
+                            value: _tipoDeEnderecoSelecionado,
+                            hint: Text("Tipo de endereço*"),
+                            style: TextStyle (
+                              color: Color(0xFF2196F3),
+                              fontSize: 18
+                            ),
+                            items: _listaItensTipoDeEndereco,
+                            validator: _validarTipoDeEndereco,
+                            onChanged: (valor) {
+                              setState(() {
+                                _tipoDeEnderecoSelecionado = valor;
+                              });
+                            }
+                          ),
+                        ),
+                      ),
+                    ],),
 
-                  AppText("Estado*", 
-                  "Digite o estado", 
-                  controller: _tEstado,
-                  sizeText: 18, 
-                  validator: _validarEstado, 
-                  keyboardType: TextInputType.text,
-                  focusNode: _focusEstado, 
-                  textInputAction: TextInputAction.next, 
-                  nextFocus: _focusMunicipio),
-                  
+                  Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.all(8),
+                          child: DropdownButtonFormField(
+                            value: _estadoSelecionado,
+                            hint: Text("Estado*"),
+                            style: TextStyle (
+                              color: Color(0xFF2196F3),
+                              fontSize: 18
+                            ),
+                            items: _listaItensEstado,
+                            validator: _validarEstado,
+                            onChanged: (valor) {
+                              setState(() {
+                                _estadoSelecionado = valor;
+                              });
+                            }
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+         
                   SizedBox(height: 12,),
 
                   AppText("Município*", 
@@ -154,7 +188,6 @@ class _ComplaintAnimalsPageOneState extends State<ComplaintAnimalsPageOne> {
                   sizeText: 18,
                   validator: _validarMunicipio,
                   keyboardType: TextInputType.text,
-                  focusNode: _focusMunicipio,  
                   textInputAction: TextInputAction.next, 
                   nextFocus: _focusEndereco),
                   
@@ -203,7 +236,8 @@ class _ComplaintAnimalsPageOneState extends State<ComplaintAnimalsPageOne> {
                         "Informações da ocorrência",
                         style: TextStyle(
                           color: Color(0xFF2196F3),
-                          fontSize: 18
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold
                         )
                       ),
 
@@ -247,45 +281,88 @@ class _ComplaintAnimalsPageOneState extends State<ComplaintAnimalsPageOne> {
                   sizeText: 18,
                   validator: _validarRelatoDoFato,
                   keyboardType: TextInputType.text,
+                  maxLines: null,
                   focusNode: _focusRelatoDoFato,
-                  textInputAction: TextInputAction.next, 
-                  nextFocus: _focusTipoDeCrime),
+                  textInputAction: TextInputAction.next),
 
                   SizedBox(height: 12,),
 
-                  AppText("Tipo do crime*", 
-                  "Selecione o tipo do crime", 
-                  controller: _tTipoDeCrime,
-                  sizeText: 18,
-                  validator: _validarTipoDeCrime,
-                  keyboardType: TextInputType.text,
-                  focusNode: _focusTipoDeCrime,
-                  textInputAction: TextInputAction.next, 
-                  nextFocus: _focusClassificacaoDoAnimal),
+                  Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.all(8),
+                          child: DropdownButtonFormField(
+                            value: _tipoDeCrimeSelecionado,
+                            hint: Text("Tipo de crime*"),
+                            style: TextStyle (
+                              color: Color(0xFF2196F3),
+                              fontSize: 18
+                            ),
+                            items: _listaItensTipoDeCrime,
+                            validator: _validarTipoDeCrime,
+                            onChanged: (valor) {
+                              setState(() {
+                                _tipoDeCrimeSelecionado = valor;
+                              });
+                            }
+                          ),
+                        ),
+                      ),
+                    ]
+                  ),
 
                   SizedBox(height: 12,),
 
-                  AppText("Classificação do animal*", 
-                  "Selecione a classificação do animal", 
-                  controller: _tClassificacaoDoAnimal,
-                  sizeText: 18,
-                  validator: _validarClassificacaoDoAnimal,
-                  keyboardType: TextInputType.text,
-                  focusNode: _focusClassificacaoDoAnimal,
-                  textInputAction: TextInputAction.next, 
-                  nextFocus: _focusPorte),
+                  Row (
+                    children: <Widget>[
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.all(8),
+                          child: DropdownButtonFormField(
+                            value: _classificacaoSelecionada,
+                            hint: Text("Classificação do animal*"),
+                            style: TextStyle (
+                              color: Color(0xFF2196F3),
+                              fontSize: 18
+                            ),
+                            items: _listaItensClassificacao,
+                            validator: _validarClassificacaoDoAnimal,
+                            onChanged: (valor) {
+                              setState(() {
+                                _classificacaoSelecionada = valor;
+                              });
+                            }
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
 
-                  SizedBox(height: 12,),
-
-                  AppText("Porte*", 
-                  "Selecione o porte do animal", 
-                  controller: _tPorte,
-                  sizeText: 18,
-                  validator: _validarPorte,
-                  keyboardType: TextInputType.text,
-                  focusNode: _focusPorte,
-                  textInputAction: TextInputAction.next, 
-                  nextFocus: _focusQuantidade),
+                  Row (
+                    children: <Widget>[
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.all(8),
+                          child: DropdownButtonFormField(
+                            value: _porteSelecionado,
+                            hint: Text("Porte*"),
+                            style: TextStyle (
+                              color: Color(0xFF2196F3),
+                              fontSize: 18
+                            ),
+                            items: _listaItensPorte,
+                            validator: _validarPorte,
+                            onChanged: (valor) {
+                              setState(() {
+                               _porteSelecionado = valor;
+                              });
+                            }
+                          ),
+                        ),
+                      ),
+                    ]
+                  ),
 
                   SizedBox(height: 12,),
 
@@ -295,7 +372,6 @@ class _ComplaintAnimalsPageOneState extends State<ComplaintAnimalsPageOne> {
                   sizeText: 18,
                   validator: _validarQuantidade,
                   keyboardType: TextInputType.number,
-                  focusNode: _focusQuantidade,
                   textInputAction: TextInputAction.next, 
                   nextFocus: _focusNomeDenunciante),
 
@@ -305,7 +381,8 @@ class _ComplaintAnimalsPageOneState extends State<ComplaintAnimalsPageOne> {
                         "Informações do denunciante",
                         style: TextStyle(
                           color: Color(0xFF2196F3),
-                          fontSize: 18
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold
                         )
                       ),
 
@@ -362,21 +439,36 @@ class _ComplaintAnimalsPageOneState extends State<ComplaintAnimalsPageOne> {
                   validator: _validarEmail,
                   keyboardType: TextInputType.emailAddress,
                   focusNode: _focusEmail,
-                  textInputAction: TextInputAction.next, 
-                  nextFocus: _focusEstadoDenunciante),
+                  textInputAction: TextInputAction.next),
 
                   SizedBox(height: 12,),
 
-                  AppText("Estado*", 
-                  "Digite o estado que você mora", 
-                  controller: _tEstadoDenunciante,
-                  sizeText: 18, 
-                  validator: _validarEstadoDenunciante, 
-                  keyboardType: TextInputType.text,
-                  focusNode: _focusEstadoDenunciante, 
-                  textInputAction: TextInputAction.next, 
-                  nextFocus: _focusMunicipioDenunciante),
-                  
+                  Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.all(8),
+                          child: DropdownButtonFormField(
+                            value: _estadoDenuncianteSelecionado,
+                            hint: Text("Estado*"),
+                            style: TextStyle (
+                              color: Color(0xFF2196F3),
+                              fontSize: 18
+                            ),
+                            items: _listaItensEstado,
+                            validator: _validarEstadoDenunciante,
+                            onChanged: (valor) {
+                              setState(() {
+                                _estadoDenuncianteSelecionado = valor;
+                              });
+                            }
+                          ),
+                        ),
+                      ),
+                    ]
+
+                  ),
+
                   SizedBox(height: 12,),
 
                   AppText("Município*", 
@@ -384,8 +476,7 @@ class _ComplaintAnimalsPageOneState extends State<ComplaintAnimalsPageOne> {
                   controller: _tMunicipioDenunciante, 
                   sizeText: 18,
                   validator: _validarMunicipioDenunciante,
-                  keyboardType: TextInputType.text,
-                  focusNode: _focusMunicipioDenunciante,  
+                  keyboardType: TextInputType.text, 
                   textInputAction: TextInputAction.next, 
                   nextFocus: _focusEnderecoDenunciante),
                   
@@ -434,7 +525,8 @@ class _ComplaintAnimalsPageOneState extends State<ComplaintAnimalsPageOne> {
                         "Informações do infrator",
                         style: TextStyle(
                           color: Color(0xFF2196F3),
-                          fontSize: 18
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold
                         )
                       ),
 
@@ -462,11 +554,24 @@ class _ComplaintAnimalsPageOneState extends State<ComplaintAnimalsPageOne> {
 
                   SizedBox(height: 12,),
 
+                   Text(
+                        "Informações adicionais",
+                        style: TextStyle(
+                          color: Color(0xFF2196F3),
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold
+                        )
+                      ),
+
+                  SizedBox(height: 12,),
+
+
                   AppText("Informações adicionais", 
                   "Digite informações adicionais", 
                   controller: _tInformacoesAdicionais, 
                   sizeText: 18,
                   keyboardType: TextInputType.text,
+                  maxLines: null,
                   focusNode: _focusInformacoesAdicionais),
                   
                   SizedBox(height: 22,),
@@ -490,8 +595,8 @@ class _ComplaintAnimalsPageOneState extends State<ComplaintAnimalsPageOne> {
       return;
     }
 
-    _denuncia.tipoDeEndereco = _tTipoDeEndereco.text;
-    _denuncia.estado = _tEstado.text;
+    _denuncia.tipoDeEndereco = _tipoDeEnderecoSelecionado;
+    _denuncia.estado = _estadoSelecionado;
     _denuncia.municipio = _tMunicipio.text;
     _denuncia.endereco = _tEndereco.text;
     _denuncia.numero = _tNumero.text;
@@ -500,16 +605,16 @@ class _ComplaintAnimalsPageOneState extends State<ComplaintAnimalsPageOne> {
     _denuncia.dataDoFato = _tDataDoFato.text.toString();
     _denuncia.horaDoFato = _tHoraDoFato.text.toString();
     _denuncia.relatoDoFato = _tRelatoDoFato.text;
-    _denuncia.tipoDeCrime = _tTipoDeCrime.text;
-    _denuncia.classificacaoDoAnimal = _tClassificacaoDoAnimal.text;
-    _denuncia.porte = _tPorte.text;
+    _denuncia.tipoDeCrime = _tipoDeCrimeSelecionado;
+    _denuncia.classificacaoDoAnimal = _classificacaoSelecionada;
+    _denuncia.porte = _porteSelecionado;
     _denuncia.quantidade = _tQuantidade.text;
 
     _denuncia.nomeDenunciante = _tNomeDenunciante.text;
     _denuncia.cpf = _tCpf.text.toString();
     _denuncia.telefone = _tTelefone.text.toString();
     _denuncia.email = _tEmail.text;
-    _denuncia.estadoDenunciante = _tEstadoDenunciante.text;
+    _denuncia.estadoDenunciante = _estadoDenuncianteSelecionado;
     _denuncia.municipioDenunciante = _tMunicipioDenunciante.text;
     _denuncia.enderecoDenunciante = _tEnderecoDenunciante.text;
     _denuncia.numeroDenunciante = _tNumeroDenunciante.text;
@@ -605,8 +710,8 @@ class _ComplaintAnimalsPageOneState extends State<ComplaintAnimalsPageOne> {
      return Validador()
     .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
     .add(Validar.CPF, msg: "CPF inválido")
-    .minLength(11)
-    .maxLength(11)
+    .minLength(14)
+    .maxLength(14)
     .valido(cpf);
   }
 

@@ -69,7 +69,8 @@ class _AdoptionPageOneState extends State<AdoptionPageOne> {
                         "Informações do(s) animal(is)",
                         style: TextStyle(
                           color: Color(0xFF2196F3),
-                          fontSize: 18
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold
                         )
                       ),
 

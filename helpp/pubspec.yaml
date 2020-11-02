@@ -67,6 +67,7 @@ flutter:
     - imagens/logotipo01_02.JPG
     - imagens/logotipo02_01.JPG
     - imagens/logotipo03_02.JPG
+    - imagens/sem_foto.JPG
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

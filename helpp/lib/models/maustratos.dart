@@ -92,7 +92,7 @@ class Maustratos {
       "cep" : this.cep,
       "dataDoFato" : this.dataDoFato,
       "horaDoFato": this.horaDoFato,
-      "realtoDoFato" : this.relatoDoFato,
+      "relatoDoFato" : this.relatoDoFato,
       "tipoDeCrime" : this.tipoDeCrime,
       "classificacaoDoAnimal" : this.classificacaoDoAnimal,
       "porte" : this.porte,

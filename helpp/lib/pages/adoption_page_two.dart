@@ -71,7 +71,8 @@ class _AdoptionPageTwoState extends State<AdoptionPageTwo> {
                     "Informações do anunciante",
                     style: TextStyle(
                       color: Color(0xFF2196F3),
-                      fontSize: 18
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold
                     )
                   ),
 

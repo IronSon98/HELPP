@@ -14,9 +14,10 @@ class AdoptionAnimals extends StatefulWidget {
 }
 
 class _AdoptionAnimalsState extends State<AdoptionAnimals> {
+
   final _formKey = GlobalKey<FormState>();
   List<String> itensMenu = ["Meus anúncios"];
-   List<DropdownMenuItem<String>> _listaItensEstado = List();
+  List<DropdownMenuItem<String>> _listaItensEstado = List();
   String _itemSelecionadoEstado;
   final _controller = StreamController<QuerySnapshot>.broadcast();
 

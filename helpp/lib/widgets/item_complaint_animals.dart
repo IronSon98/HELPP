@@ -21,14 +21,27 @@ class ItemComplaintAnimals extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.all(12),
           child: Row(children: <Widget>[
-            SizedBox(
-              width: 120,
-              height: 120,
-              child: Image.network(
-                denuncia.fotos[0],
-                fit: BoxFit.cover,
+
+            if(denuncia.fotos.length > 0)
+              SizedBox(
+                width: 120,
+                height: 120,
+                child: Image.network(
+                  denuncia.fotos[0],
+                  fit: BoxFit.cover,
+                ),
               ),
-            ),
+      
+            if(denuncia.fotos.isEmpty)
+              SizedBox(
+                width: 120,
+                height: 120,
+                child: Image.asset(
+                  "imagens/sem_foto.JPG",
+                  fit: BoxFit.cover,
+                ),
+              ),
+
             Expanded(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),

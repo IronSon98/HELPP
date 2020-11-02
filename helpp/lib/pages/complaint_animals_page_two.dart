@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:helpp/pages/complaint_animals.dart';
+import 'package:helpp/utils/nav.dart';
 import 'package:helpp/widgets/app_button.dart';
 import 'package:helpp/models/email.dart';
 import 'package:helpp/models/maustratos.dart';
@@ -19,6 +21,7 @@ class ComplaintAnimalsPageTwo extends StatefulWidget {
 }
 
 class _ComplaintAnimalsPageTwoState extends State<ComplaintAnimalsPageTwo> {
+
   final _formKey = GlobalKey<FormState>();
   String _text = '';
   var email = Email('helpp.denuncia@gmail.com', 'Anatnas23111998');
@@ -204,7 +207,6 @@ class _ComplaintAnimalsPageTwoState extends State<ComplaintAnimalsPageTwo> {
                                 ),
                               ),
                             );
-
                           }
 
                           return Container();
@@ -225,7 +227,6 @@ class _ComplaintAnimalsPageTwoState extends State<ComplaintAnimalsPageTwo> {
               ),
 
               SizedBox(height: 5,),
-
               
               AppButton(
                 "DENUNCIAR",  
@@ -245,50 +246,6 @@ class _ComplaintAnimalsPageTwoState extends State<ComplaintAnimalsPageTwo> {
       return;
     }
 
-    String _imagens;
-
-    for(var imagem in widget.denuncia.fotos) {
-      _imagens = imagem + "\n";
-    }
-
-    _mensagem = "ENDEREÇO DA OCORRÊNCIA \n" + 
-    "Tipo de endereço: " + widget.denuncia.tipoDeEndereco + "\n" + 
-    "Estado:" + widget.denuncia.estado + "\n" +
-    "Município: " + widget.denuncia.municipio + "\n" +
-    "Endereço: " + widget.denuncia.endereco + "\n" +
-    "Número: " + widget.denuncia.numero + "\n" +
-    "CEP: " + widget.denuncia.cep + "\n\n" +
-    "INFORMAÇÕES DA OCORRÊNCIA \n" +
-    "Data do fato: " + widget.denuncia.dataDoFato + "\n" +
-    "Hora aproximada: " + widget.denuncia.horaDoFato + "\n" +
-    "Relato do fato: " + widget.denuncia.relatoDoFato + "\n" +
-    "Tipo de crime: " + widget.denuncia.tipoDeCrime + "\n" +
-    "Classificação do animal: " + widget.denuncia.classificacaoDoAnimal + "\n" +
-    "Porte do animal: " + widget.denuncia.porte + "\n" +
-    "Quantidade de animais: " + widget.denuncia.quantidade + "\n" +
-    "Imagens: " + _imagens + "\n"
-    "INFORMAÇÕES DO DENUNCIANTE \n" +
-    "Nome: " + widget.denuncia.nomeDenunciante + "\n" +
-    "CPF: " + widget.denuncia.cpf + "\n" +
-    "Telefone: " + widget.denuncia.telefone + "\n" +
-    "E-mail: " + widget.denuncia.email + "\n" +
-    "Estado: " + widget.denuncia.estadoDenunciante + "\n" +
-    "Município: " + widget.denuncia.municipioDenunciante + "\n" +
-    "Endereço: " + widget.denuncia.enderecoDenunciante + "\n" +
-    "Número: " + widget.denuncia.numeroDenunciante + "\n" +
-    "CEP: " + widget.denuncia.cepDenunciante + "\n\n" +
-    "INFORMAÇÕES DO INFRATOR \n" + 
-    "Nome: " + widget.denuncia.nomeDenunciado + "\n"
-    "Descrição: " + widget.denuncia.descricao + "\n\n"
-    "INFORMAÇÕES ADICIONAIS \n" +
-    widget.denuncia.informacoesAdicionais + "\n\n" +
-    "OBS.: PRÓXIMAS INFORMAÇÕES REFERENTE A ESSA DENÚNCIA, ENVIAR PARA O E-MAIL DO DENUNCIANTE!";
-
-    _assunto = "Denúncia de maus tratos contra animais";
-    _destinatario = "ironcsantanafilho@gmail.com";
-
-    _sendEmail(_mensagem, _destinatario, _assunto);
-    
     //Configura dialog context
     _dialogContext = context;
 
@@ -310,6 +267,56 @@ class _ComplaintAnimalsPageTwoState extends State<ComplaintAnimalsPageTwo> {
      widget.denuncia.toMap()
     );
 
+    _mensagem = "ENDEREÇO DA OCORRÊNCIA \n" + 
+    "Tipo de endereço: " + widget.denuncia.tipoDeEndereco + "\n" + 
+    "Estado:" + widget.denuncia.estado + "\n" +
+    "Município: " + widget.denuncia.municipio + "\n" +
+    "Endereço: " + widget.denuncia.endereco + "\n" +
+    "Número: " + widget.denuncia.numero + "\n";
+    if(widget.denuncia.cep.length > 0)
+      _mensagem = _mensagem + "CEP: " + widget.denuncia.cep + "\n";
+
+    _mensagem = _mensagem + "\n" + "INFORMAÇÕES DA OCORRÊNCIA \n" +
+    "Data do fato: " + widget.denuncia.dataDoFato + "\n" +
+    "Hora aproximada: " + widget.denuncia.horaDoFato + "\n" +
+    "Relato do fato: " + widget.denuncia.relatoDoFato + "\n" +
+    "Tipo de crime: " + widget.denuncia.tipoDeCrime + "\n" +
+    "Classificação do animal: " + widget.denuncia.classificacaoDoAnimal + "\n" +
+    "Porte do animal: " + widget.denuncia.porte + "\n" +
+    "Quantidade de animais: " + widget.denuncia.quantidade + "\n";
+    //"Imagens: " + widget.denuncia.fotos.first + "\n\n"
+
+    _mensagem = _mensagem + "\n" + "INFORMAÇÕES DO DENUNCIANTE \n" +
+    "Nome: " + widget.denuncia.nomeDenunciante + "\n" +
+    "CPF: " + widget.denuncia.cpf + "\n" +
+    "Telefone: " + widget.denuncia.telefone + "\n" +
+    "E-mail: " + widget.denuncia.email + "\n" +
+    "Estado: " + widget.denuncia.estadoDenunciante + "\n" +
+    "Município: " + widget.denuncia.municipioDenunciante + "\n" +
+    "Endereço: " + widget.denuncia.enderecoDenunciante + "\n" +
+    "Número: " + widget.denuncia.numeroDenunciante + "\n";
+    if(widget.denuncia.cepDenunciante.length > 0)
+      _mensagem = _mensagem + "CEP: " + widget.denuncia.cepDenunciante + "\n";
+
+    if(widget.denuncia.nomeDenunciado.length > 0 || widget.denuncia.descricao.length > 0)
+      _mensagem = _mensagem + "\n" + "INFORMAÇÕES DO INFRATOR \n";
+
+    if(widget.denuncia.nomeDenunciado.length > 0) 
+      _mensagem = _mensagem + "Nome: " + widget.denuncia.nomeDenunciado + "\n";
+
+    if(widget.denuncia.descricao.length > 0)
+      _mensagem = _mensagem + "Descrição: " + widget.denuncia.descricao + "\n";
+
+    if(widget.denuncia.informacoesAdicionais.length > 0)
+      _mensagem = _mensagem + "\n" + "INFORMAÇÕES ADICIONAIS \n" + widget.denuncia.informacoesAdicionais + "\n";
+
+    _mensagem = _mensagem + "\n" + "OBS.: PRÓXIMAS INFORMAÇÕES REFERENTE A ESSA DENÚNCIA, ENVIAR PARA O E-MAIL DO DENUNCIANTE!";
+
+    _assunto = "Denúncia de maus tratos contra animais";
+    _destinatario = "ironcsantanafilho@gmail.com";
+
+    _sendEmail(_mensagem, _destinatario, _assunto);
+
     Navigator.pop(_dialogContext);
     Navigator.pop(context);
     Navigator.pop(context);
@@ -317,6 +324,8 @@ class _ComplaintAnimalsPageTwoState extends State<ComplaintAnimalsPageTwo> {
 
   void _sendEmail(String mensagem, String destinatario, String assunto) async {
     bool result = await email.sendMessage(mensagem, destinatario, assunto);
+
+    if(!mounted) return;
 
     setState(() {
       _text = result ? 'Enviado.' : 'Não enviado.';
