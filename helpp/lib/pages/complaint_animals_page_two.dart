@@ -284,7 +284,6 @@ class _ComplaintAnimalsPageTwoState extends State<ComplaintAnimalsPageTwo> {
     "Classificação do animal: " + widget.denuncia.classificacaoDoAnimal + "\n" +
     "Porte do animal: " + widget.denuncia.porte + "\n" +
     "Quantidade de animais: " + widget.denuncia.quantidade + "\n";
-    //"Imagens: " + widget.denuncia.fotos.first + "\n\n"
 
     _mensagem = _mensagem + "\n" + "INFORMAÇÕES DO DENUNCIANTE \n" +
     "Nome: " + widget.denuncia.nomeDenunciante + "\n" +
@@ -315,15 +314,15 @@ class _ComplaintAnimalsPageTwoState extends State<ComplaintAnimalsPageTwo> {
     _assunto = "Denúncia de maus tratos contra animais";
     _destinatario = "ironcsantanafilho@gmail.com";
 
-    _sendEmail(_mensagem, _destinatario, _assunto);
+    _sendEmail(_mensagem, _listaImagens, _destinatario, _assunto);
 
     Navigator.pop(_dialogContext);
     Navigator.pop(context);
     Navigator.pop(context);
   }
 
-  void _sendEmail(String mensagem, String destinatario, String assunto) async {
-    bool result = await email.sendMessage(mensagem, destinatario, assunto);
+  void _sendEmail(String mensagem, List<File> _listaImagens, String destinatario, String assunto) async {
+    bool result = await email.sendMessage(mensagem, _listaImagens, destinatario, assunto);
 
     if(!mounted) return;
 
