@@ -30,6 +30,24 @@ class _RegisterPageState extends State<RegisterPage> {
   final _focusSenha = FocusNode();
   final _focusTelefone = FocusNode();
 
+   void _showErrorDialog(String mensagem) {
+    showDialog(
+      context: context,
+      builder: (contexto) => AlertDialog (
+        title: Text("ERRO"),
+        content: Text(mensagem),
+        actions: <Widget> [
+          FlatButton (
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text("Fechar"),
+          )
+        ],
+      ),
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -184,7 +202,8 @@ class _RegisterPageState extends State<RegisterPage> {
         });
       }).catchError((erro){
         setState(() {
-          _mensagemErro = "Erro ao realizar o cadastro de usuário! Verifique o e-mail ou a senha.";
+          _showErrorDialog("Falha ao realizar o cadastro!");
+          _mensagemErro = erro.toString();
         });
       });
   }
@@ -200,8 +219,8 @@ class _RegisterPageState extends State<RegisterPage> {
     return Validador()
     .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
     .add(Validar.CPF, msg: "CPF inválido")
-    .minLength(11)
-    .maxLength(11)
+    .minLength(14)
+    .maxLength(14)
     .valido(cpf);
   } 
 

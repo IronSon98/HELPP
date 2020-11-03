@@ -19,7 +19,25 @@ class _LoginPageState extends State<LoginPage> {
 
   final _focusSenha = FocusNode();
 
-//Verifica se existe um usuário logado e o enviada para a tela inicial
+  void _showErrorDialog(String mensagem) {
+    showDialog(
+      context: context,
+      builder: (contexto) => AlertDialog (
+        title: Text("ERRO"),
+        content: Text(mensagem),
+        actions: <Widget> [
+          FlatButton (
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text("Fechar"),
+          )
+        ],
+      ),
+    );
+  }
+
+  //Verifica se existe um usuário logado e o enviada para a tela inicial
   Future _verificarUsuarioLogado() async {
     FirebaseAuth auth = FirebaseAuth.instance;
 
@@ -168,8 +186,9 @@ class _LoginPageState extends State<LoginPage> {
         });
        push(context, HomePage());
      }).catchError((erro) {
+       _showErrorDialog("Falha ao realizar o login!");
        setState(() {
-          _mensagemErro = "Erro ao realizar o login. Dados inválidos!";
+          _mensagemErro = erro.toString();
         });
      });
   }
