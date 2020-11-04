@@ -42,6 +42,7 @@ class _DetailsComplaintAnimalsState extends State<DetailsComplaintAnimals> {
     return Scaffold(
       appBar: AppBar(
         title: Text("HELPP"),
+        centerTitle: true,
       ),
       body: Stack(children: <Widget>[
 

@@ -224,7 +224,7 @@ class _ComplaintAnimalsPageTwoState extends State<ComplaintAnimalsPageTwo> {
                 },
               ),
 
-              SizedBox(height: 22,),
+             SizedBox(height: 22,),
               
               AppButton(
                 "DENUNCIAR",  

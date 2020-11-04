@@ -112,11 +112,6 @@ class _DiskComplaintState extends State<DiskComplaint> {
                 ],
               ),
 
-    
-
-              SizedBox(height: 12,),
-
-         
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[

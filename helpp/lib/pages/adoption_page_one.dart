@@ -76,7 +76,7 @@ class _AdoptionPageOneState extends State<AdoptionPageOne> {
                         )
                       ),
 
-                  SizedBox(height: 12,),
+                  SizedBox(height: 30),
 
                   AppText("Animal*", 
                   "Digite qual é o animal", 
@@ -134,7 +134,6 @@ class _AdoptionPageOneState extends State<AdoptionPageOne> {
 
                   ),
                     
-                  
                   SizedBox(height: 12,),
 
                   AppText("Quantidade*", 
@@ -190,7 +189,13 @@ class _AdoptionPageOneState extends State<AdoptionPageOne> {
                   maxLines: null,
                   focusNode: _focusInformacoesAdicionais),
                   
-                  SizedBox(height: 22,),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 16),
+                    child: Divider(
+                      color: Color(0xFF2196F3),
+                      thickness: 2,
+                    ),
+                  ),
 
                   AppButton(
                     "PRÓXIMO", 

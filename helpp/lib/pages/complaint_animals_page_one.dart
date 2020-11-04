@@ -230,7 +230,13 @@ class _ComplaintAnimalsPageOneState extends State<ComplaintAnimalsPageOne> {
                   textInputAction: TextInputAction.next, 
                   nextFocus: _focusDataDoFato),
                   
-                  SizedBox(height: 20),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 16),
+                    child: Divider(
+                      color: Color(0xFF2196F3),
+                      thickness: 2,
+                    ),
+                  ),
 
                   Text(
                         "Informações da ocorrência",
@@ -241,7 +247,7 @@ class _ComplaintAnimalsPageOneState extends State<ComplaintAnimalsPageOne> {
                         )
                       ),
 
-                  SizedBox(height: 12,),
+                  SizedBox(height: 30),
 
                   AppText("Data do fato*", 
                   "Digite a data do fato", 
@@ -374,7 +380,13 @@ class _ComplaintAnimalsPageOneState extends State<ComplaintAnimalsPageOne> {
                   textInputAction: TextInputAction.next, 
                   nextFocus: _focusNomeDenunciante),
 
-                  SizedBox(height: 20),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 16),
+                    child: Divider(
+                      color: Color(0xFF2196F3),
+                      thickness: 2,
+                    ),
+                  ),
 
                   Text(
                         "Informações do denunciante",
@@ -385,7 +397,7 @@ class _ComplaintAnimalsPageOneState extends State<ComplaintAnimalsPageOne> {
                         )
                       ),
 
-                  SizedBox(height: 12,),
+                  SizedBox(height: 30),
 
                   AppText("Nome*", 
                   "Digite seu nome", 
@@ -517,7 +529,13 @@ class _ComplaintAnimalsPageOneState extends State<ComplaintAnimalsPageOne> {
                   textInputAction: TextInputAction.next, 
                   nextFocus: _focusNomeDenunciado),
                   
-                  SizedBox(height: 20),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 16),
+                    child: Divider(
+                      color: Color(0xFF2196F3),
+                      thickness: 2,
+                    ),
+                  ),
 
                   Text(
                         "Informações do infrator",
@@ -528,7 +546,7 @@ class _ComplaintAnimalsPageOneState extends State<ComplaintAnimalsPageOne> {
                         )
                       ),
 
-                  SizedBox(height: 12,),
+                  SizedBox(height: 30),
 
                   AppText("Nome", 
                   "Digite o nome do infrator", 
@@ -550,7 +568,13 @@ class _ComplaintAnimalsPageOneState extends State<ComplaintAnimalsPageOne> {
                   textInputAction: TextInputAction.next, 
                   nextFocus: _focusInformacoesAdicionais),
 
-                  SizedBox(height: 20),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 16),
+                    child: Divider(
+                      color: Color(0xFF2196F3),
+                      thickness: 2,
+                    ),
+                  ),
 
                    Text(
                         "Informações adicionais",
@@ -561,7 +585,7 @@ class _ComplaintAnimalsPageOneState extends State<ComplaintAnimalsPageOne> {
                         )
                       ),
 
-                  SizedBox(height: 12,),
+                  SizedBox(height: 30),
 
 
                   AppText("Informações adicionais", 
@@ -572,7 +596,13 @@ class _ComplaintAnimalsPageOneState extends State<ComplaintAnimalsPageOne> {
                   maxLines: null,
                   focusNode: _focusInformacoesAdicionais),
                   
-                  SizedBox(height: 22,),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 16),
+                    child: Divider(
+                      color: Color(0xFF2196F3),
+                      thickness: 2,
+                    ),
+                  ),
 
                   AppButton(
                     "PRÓXIMO", 

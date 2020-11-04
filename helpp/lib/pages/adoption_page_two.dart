@@ -76,7 +76,7 @@ class _AdoptionPageTwoState extends State<AdoptionPageTwo> {
                     )
                   ),
 
-              SizedBox(height: 12,),
+              SizedBox(height: 30),
 
               AppText("Nome*", 
               "Digite seu nome", 
@@ -165,7 +165,13 @@ class _AdoptionPageTwoState extends State<AdoptionPageTwo> {
               ],
               focusNode: _focusWhatsapp,),
               
-              SizedBox(height: 22,),
+               Padding(
+                padding: EdgeInsets.symmetric(vertical: 16),
+                child: Divider(
+                  color: Color(0xFF2196F3),
+                  thickness: 2,
+                ),
+              ),
 
               AppButton(
                 "PRÓXIMO", 

@@ -116,7 +116,7 @@ class _ComplaintMissingPageOneState extends State<ComplaintMissingPageOne> {
                         )
                       ),
 
-                  SizedBox(height: 12,),
+                  SizedBox(height: 30),
 
                   AppText("Nome*", 
                   "Digite o seu nome", 
@@ -207,7 +207,13 @@ class _ComplaintMissingPageOneState extends State<ComplaintMissingPageOne> {
                   textInputAction: TextInputAction.next, 
                   nextFocus: _focusNomeDoPai),
                   
-                  SizedBox(height: 20),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 16),
+                    child: Divider(
+                      color: Color(0xFF2196F3),
+                      thickness: 2,
+                    ),
+                  ),
 
                   Text(
                         "Informações do desaparecido",
@@ -218,7 +224,7 @@ class _ComplaintMissingPageOneState extends State<ComplaintMissingPageOne> {
                         )
                       ),
 
-                  SizedBox(height: 12,),
+                  SizedBox(height: 30),
 
                   AppText("Nome do pai", 
                   "Digite o nome do pai do desaparecido", 
@@ -328,7 +334,13 @@ class _ComplaintMissingPageOneState extends State<ComplaintMissingPageOne> {
                   textInputAction: TextInputAction.next, 
                   nextFocus: _focusLocalDesaparecimento),
                   
-                  SizedBox(height: 20),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 16),
+                    child: Divider(
+                      color: Color(0xFF2196F3),
+                      thickness: 2,
+                    ),
+                  ),
 
                   Text(
                         "Informações do desaparecimento",
@@ -339,7 +351,7 @@ class _ComplaintMissingPageOneState extends State<ComplaintMissingPageOne> {
                         )
                       ),
 
-                  SizedBox(height: 12,),
+                  SizedBox(height: 30),
 
                   AppText("Local do desaparecimento*", 
                   "Digite o local do desaparecimento", 
@@ -383,7 +395,13 @@ class _ComplaintMissingPageOneState extends State<ComplaintMissingPageOne> {
                   textInputAction: TextInputAction.next, 
                   nextFocus: _focusAltura),
 
-                  SizedBox(height: 20),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 16),
+                    child: Divider(
+                      color: Color(0xFF2196F3),
+                      thickness: 2,
+                    ),
+                  ),
 
                   Text(
                         "Características físicas do desaparecido",
@@ -394,7 +412,7 @@ class _ComplaintMissingPageOneState extends State<ComplaintMissingPageOne> {
                         )
                       ),
 
-                  SizedBox(height: 12,),
+                  SizedBox(height: 30),
 
                   AppText("Altura", 
                   "Digite a altura do desaparecido", 
@@ -454,7 +472,13 @@ class _ComplaintMissingPageOneState extends State<ComplaintMissingPageOne> {
                   textInputAction: TextInputAction.next, 
                   nextFocus: _focusInformacoesAdicionais),
 
-                  SizedBox(height: 20),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 16),
+                    child: Divider(
+                      color: Color(0xFF2196F3),
+                      thickness: 2,
+                    ),
+                  ),
 
                    Text(
                         "Informações adicionais",
@@ -465,7 +489,7 @@ class _ComplaintMissingPageOneState extends State<ComplaintMissingPageOne> {
                         )
                       ),
 
-                  SizedBox(height: 12,),
+                  SizedBox(height: 30),
 
                   AppText("Informações adicionais", 
                   "Digite informações adicionais", 
@@ -475,7 +499,13 @@ class _ComplaintMissingPageOneState extends State<ComplaintMissingPageOne> {
                   maxLines: null,
                   focusNode: _focusInformacoesAdicionais),
                   
-                  SizedBox(height: 22,),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 16),
+                    child: Divider(
+                      color: Color(0xFF2196F3),
+                      thickness: 2,
+                    ),
+                  ),
 
                   AppButton(
                     "PRÓXIMO", 

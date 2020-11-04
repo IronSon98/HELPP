@@ -42,6 +42,7 @@ class _DetailsAdsState extends State<DetailsAds> {
     return Scaffold(
       appBar: AppBar(
         title: Text("HELPP"),
+        centerTitle: true,
       ),
       body: Stack(children: <Widget>[
 

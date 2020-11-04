@@ -23,7 +23,7 @@ class _DetailsComplaintMissingState extends State<DetailsComplaintMissing> {
         decoration: BoxDecoration(
           image: DecorationImage(
             image: NetworkImage(url),
-            fit: BoxFit.fill
+            fit: BoxFit.cover
           )
         ),
       );
@@ -42,6 +42,7 @@ class _DetailsComplaintMissingState extends State<DetailsComplaintMissing> {
     return Scaffold(
       appBar: AppBar(
         title: Text("HELPP"),
+        centerTitle: true,
       ),
       body: Stack(children: <Widget>[
 
@@ -73,7 +74,7 @@ class _DetailsComplaintMissingState extends State<DetailsComplaintMissing> {
               ),
 
               Text(
-                "Desaparecido desde:" + "${_denuncia.dataDesaparecimento}",
+                "Desaparecido desde: " + "${_denuncia.dataDesaparecimento}",
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.w400,
@@ -99,7 +100,7 @@ class _DetailsComplaintMissingState extends State<DetailsComplaintMissing> {
                     "Telefone: ${_denuncia.telefone}\n" +
                     "E-mail: ${_denuncia.email}\n" + 
                     "Estado: ${_denuncia.estado}\n" +
-                    "Município ${_denuncia.cidade}\n",
+                    "Município: ${_denuncia.cidade}\n",
                     style: TextStyle(
                       fontSize: 18
                     ),
@@ -128,7 +129,7 @@ class _DetailsComplaintMissingState extends State<DetailsComplaintMissing> {
 
                   if (_denuncia.nomeDaMae.length > 0)
                     Text(
-                      "Nome do pai: ${_denuncia.nomeDaMae}",
+                      "Nome da mãe: ${_denuncia.nomeDaMae}",
                       style: TextStyle(
                         fontSize: 18
                       ),
@@ -138,7 +139,7 @@ class _DetailsComplaintMissingState extends State<DetailsComplaintMissing> {
                     "Sexo: ${_denuncia.sexo}\n" +
                     "Data de nascimento: ${_denuncia.dataDoNascimento}\n" + 
                     "Estado: ${_denuncia.estadoDesaparecido}\n" +
-                    "Município ${_denuncia.cidadeDesaparecido}\n",
+                    "Município: ${_denuncia.cidadeDesaparecido}\n",
                     style: TextStyle(
                       fontSize: 18
                     ),
@@ -215,7 +216,7 @@ class _DetailsComplaintMissingState extends State<DetailsComplaintMissing> {
 
                   if (_denuncia.outras.length > 0)
                     Text(
-                      "Outras características:\n ${_denuncia.outras}",
+                      "Outras características: ${_denuncia.outras}",
                       style: TextStyle(
                         fontSize: 18
                       ),

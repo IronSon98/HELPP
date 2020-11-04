@@ -30,12 +30,12 @@ class _ComplaintMissingState extends State<ComplaintMissing> {
     }
   }
 
-  Future<Stream<QuerySnapshot>> _filtrarAnuncios() async {
+  Future<Stream<QuerySnapshot>> _filtrarDenuncias() async {
     Firestore db = Firestore.instance;
     Query query = db.collection("complaint_missing_public");
 
     if(_itemSelecionadoEstado != null) {
-      query = query.where("estado", isEqualTo: _itemSelecionadoEstado);
+      query = query.where("estadoDesaparecido", isEqualTo: _itemSelecionadoEstado);
     }
 
     Stream<QuerySnapshot> stream = query.snapshots();
@@ -115,7 +115,7 @@ class _ComplaintMissingState extends State<ComplaintMissing> {
                     onChanged: (estado){
                       setState(() {
                         _itemSelecionadoEstado = estado;
-                        _filtrarAnuncios();
+                        _filtrarDenuncias();
                       });
                     },
                   ),
