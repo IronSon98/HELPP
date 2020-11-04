@@ -230,7 +230,7 @@ class _ComplaintAnimalsPageOneState extends State<ComplaintAnimalsPageOne> {
                   textInputAction: TextInputAction.next, 
                   nextFocus: _focusDataDoFato),
                   
-                  SizedBox(height: 12,),
+                  SizedBox(height: 20),
 
                   Text(
                         "Informações da ocorrência",
@@ -282,8 +282,7 @@ class _ComplaintAnimalsPageOneState extends State<ComplaintAnimalsPageOne> {
                   validator: _validarRelatoDoFato,
                   keyboardType: TextInputType.text,
                   maxLines: null,
-                  focusNode: _focusRelatoDoFato,
-                  textInputAction: TextInputAction.next),
+                  focusNode: _focusRelatoDoFato),
 
                   SizedBox(height: 12,),
 
@@ -375,7 +374,7 @@ class _ComplaintAnimalsPageOneState extends State<ComplaintAnimalsPageOne> {
                   textInputAction: TextInputAction.next, 
                   nextFocus: _focusNomeDenunciante),
 
-                  SizedBox(height: 12,),
+                  SizedBox(height: 20),
 
                   Text(
                         "Informações do denunciante",
@@ -438,8 +437,7 @@ class _ComplaintAnimalsPageOneState extends State<ComplaintAnimalsPageOne> {
                   sizeText: 18,
                   validator: _validarEmail,
                   keyboardType: TextInputType.emailAddress,
-                  focusNode: _focusEmail,
-                  textInputAction: TextInputAction.next),
+                  focusNode: _focusEmail),
 
                   SizedBox(height: 12,),
 
@@ -519,7 +517,7 @@ class _ComplaintAnimalsPageOneState extends State<ComplaintAnimalsPageOne> {
                   textInputAction: TextInputAction.next, 
                   nextFocus: _focusNomeDenunciado),
                   
-                  SizedBox(height: 12,),
+                  SizedBox(height: 20),
 
                   Text(
                         "Informações do infrator",
@@ -552,7 +550,7 @@ class _ComplaintAnimalsPageOneState extends State<ComplaintAnimalsPageOne> {
                   textInputAction: TextInputAction.next, 
                   nextFocus: _focusInformacoesAdicionais),
 
-                  SizedBox(height: 12,),
+                  SizedBox(height: 20),
 
                    Text(
                         "Informações adicionais",
@@ -640,10 +638,10 @@ class _ComplaintAnimalsPageOneState extends State<ComplaintAnimalsPageOne> {
     .valido(estado);
   } 
 
-  String _validarMunicipio(String estado) {
+  String _validarMunicipio(String municipio) {
     return Validador()
     .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
-    .valido(estado);
+    .valido(municipio);
   } 
 
   String _validarEndereco(String endereco) {

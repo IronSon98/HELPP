@@ -30,7 +30,7 @@ dependencies:
   firebase_auth: ^0.11.1+6  # Autenticação
   image_picker: ^0.6.0+10 # Pegar foto da câmera
   mailer: ^3.0.4 # Configura cliente SMTP e gerencia o envio dos e-mails
-  brasil_fields: ^0.0.9 # Configurações de máscaras
+  brasil_fields: ^0.4.0 # Configurações de máscaras
   intl: ^0.16.1 # Aplicar formatações das máscaras
   validadores: ^1.0.2 # Validador de CPF, E-mail, etc.
   carousel_pro: ^1.0.0 # Gerador de carrossel (visualização)

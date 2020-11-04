@@ -65,6 +65,8 @@ class _AdoptionPageOneState extends State<AdoptionPageOne> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
 
+                  SizedBox(height: 5),
+
                   Text(
                         "Informações do(s) animal(is)",
                         style: TextStyle(
@@ -81,8 +83,7 @@ class _AdoptionPageOneState extends State<AdoptionPageOne> {
                   controller: _tAnimal, 
                   sizeText: 18,
                   validator: _validarAnimal,
-                  keyboardType: TextInputType.text, 
-                  textInputAction: TextInputAction.next),
+                  keyboardType: TextInputType.text),
                   
                   SizedBox(height: 12,),
 

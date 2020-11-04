@@ -3,26 +3,23 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:helpp/models/desaparecidos.dart';
 import 'package:helpp/widgets/app_button.dart';
-import 'package:helpp/models/email.dart';
-import 'package:helpp/models/maustratos.dart';
 import 'package:image_picker/image_picker.dart';
 
-class ComplaintAnimalsPageTwo extends StatefulWidget {
+class ComplaintMissingPageTwo extends StatefulWidget {
 
-   Maustratos denuncia;
+   Desaparecidos denuncia;
   
-   ComplaintAnimalsPageTwo(this.denuncia);
+   ComplaintMissingPageTwo(this.denuncia);
 
   @override
-  _ComplaintAnimalsPageTwoState createState() => _ComplaintAnimalsPageTwoState();
+  _ComplaintMissingPageTwoState createState() => _ComplaintMissingPageTwoState();
 }
 
-class _ComplaintAnimalsPageTwoState extends State<ComplaintAnimalsPageTwo> {
+class _ComplaintMissingPageTwoState extends State<ComplaintMissingPageTwo> {
 
   final _formKey = GlobalKey<FormState>();
-  String _text = '';
-  var email = Email('helpp.denuncia@gmail.com', 'Anatnas23111998');
   List<File> _listaImagens = List();
   String _emailUsuarioLogado;
   File imagemSelecionada;
@@ -54,7 +51,7 @@ class _ComplaintAnimalsPageTwoState extends State<ComplaintAnimalsPageTwo> {
       String nomeImagem = DateTime.now().millisecondsSinceEpoch.toString();
 
       StorageReference arquivo = pastaRaiz
-      .child("complaint_animals")
+      .child("complaint_missing")
       .child(widget.denuncia.id)
       .child(nomeImagem);
 
@@ -87,17 +84,12 @@ class _ComplaintAnimalsPageTwoState extends State<ComplaintAnimalsPageTwo> {
             children: <Widget>[
             CircularProgressIndicator(),
             SizedBox(height: 20,),
-            Text("Enviando denúncia...")
+            Text("Enviando divulgação...")
           ],),
         );
       }
     );
   }
-
-  //Informações da denúncia
-  String _mensagem = '';
-  String _assunto = '';
-  String _destinatario = '';
 
   @override
   void initState() {
@@ -129,6 +121,13 @@ class _ComplaintAnimalsPageTwoState extends State<ComplaintAnimalsPageTwo> {
 
               FormField<List>(
                 initialValue: _listaImagens,
+                validator: (imagens) {
+                  if(imagens.length == 0) {
+                    return "Necessário selecionar uma imagem!";
+                  }
+
+                  return null;
+                },
                 builder: (state) {
                   return Column(children: <Widget>[
                     Container(
@@ -227,7 +226,7 @@ class _ComplaintAnimalsPageTwoState extends State<ComplaintAnimalsPageTwo> {
               SizedBox(height: 22,),
               
               AppButton(
-                "DENUNCIAR",  
+                "PUBLICAR",  
                 onPressed: _onComplaint,
               ),
             ],
@@ -255,75 +254,23 @@ class _ComplaintAnimalsPageTwoState extends State<ComplaintAnimalsPageTwo> {
     //Salvar anuncio no Firestore
     Firestore db = Firestore.instance;
 
-    db.collection("complaint_animals")
+    db.collection("complaint_missing")
     .document(_emailUsuarioLogado)
-    .collection("denuncias")
+    .collection("minhas_denuncias")
     .document(widget.denuncia.id)
     .setData(
      widget.denuncia.toMap()
     );
 
-    _mensagem = "ENDEREÇO DA OCORRÊNCIA \n" + 
-    "Tipo de endereço: " + widget.denuncia.tipoDeEndereco + "\n" + 
-    "Estado:" + widget.denuncia.estado + "\n" +
-    "Município: " + widget.denuncia.municipio + "\n" +
-    "Endereço: " + widget.denuncia.endereco + "\n" +
-    "Número: " + widget.denuncia.numero + "\n";
-    if(widget.denuncia.cep.length > 0)
-      _mensagem = _mensagem + "CEP: " + widget.denuncia.cep + "\n";
-
-    _mensagem = _mensagem + "\n" + "INFORMAÇÕES DA OCORRÊNCIA \n" +
-    "Data do fato: " + widget.denuncia.dataDoFato + "\n" +
-    "Hora aproximada: " + widget.denuncia.horaDoFato + "\n" +
-    "Relato do fato: " + widget.denuncia.relatoDoFato + "\n" +
-    "Tipo de crime: " + widget.denuncia.tipoDeCrime + "\n" +
-    "Classificação do animal: " + widget.denuncia.classificacaoDoAnimal + "\n" +
-    "Porte do animal: " + widget.denuncia.porte + "\n" +
-    "Quantidade de animais: " + widget.denuncia.quantidade + "\n";
-
-    _mensagem = _mensagem + "\n" + "INFORMAÇÕES DO DENUNCIANTE \n" +
-    "Nome: " + widget.denuncia.nomeDenunciante + "\n" +
-    "CPF: " + widget.denuncia.cpf + "\n" +
-    "Telefone: " + widget.denuncia.telefone + "\n" +
-    "E-mail: " + widget.denuncia.email + "\n" +
-    "Estado: " + widget.denuncia.estadoDenunciante + "\n" +
-    "Município: " + widget.denuncia.municipioDenunciante + "\n" +
-    "Endereço: " + widget.denuncia.enderecoDenunciante + "\n" +
-    "Número: " + widget.denuncia.numeroDenunciante + "\n";
-    if(widget.denuncia.cepDenunciante.length > 0)
-      _mensagem = _mensagem + "CEP: " + widget.denuncia.cepDenunciante + "\n";
-
-    if(widget.denuncia.nomeDenunciado.length > 0 || widget.denuncia.descricao.length > 0)
-      _mensagem = _mensagem + "\n" + "INFORMAÇÕES DO INFRATOR \n";
-
-    if(widget.denuncia.nomeDenunciado.length > 0) 
-      _mensagem = _mensagem + "Nome: " + widget.denuncia.nomeDenunciado + "\n";
-
-    if(widget.denuncia.descricao.length > 0)
-      _mensagem = _mensagem + "Descrição: " + widget.denuncia.descricao + "\n";
-
-    if(widget.denuncia.informacoesAdicionais.length > 0)
-      _mensagem = _mensagem + "\n" + "INFORMAÇÕES ADICIONAIS \n" + widget.denuncia.informacoesAdicionais + "\n";
-
-    _mensagem = _mensagem + "\n" + "OBS.: PRÓXIMAS INFORMAÇÕES REFERENTE A ESSA DENÚNCIA, ENVIAR PARA O E-MAIL DO DENUNCIANTE!";
-
-    _assunto = "Denúncia de maus tratos contra animais";
-    _destinatario = "ironcsantanafilho@gmail.com";
-
-    _sendEmail(_mensagem, _listaImagens, _destinatario, _assunto);
+    db.collection("complaint_missing_public")
+    .document(widget.denuncia.id)
+    .setData(
+      widget.denuncia.toMap()
+    );
 
     Navigator.pop(_dialogContext);
     Navigator.pop(context);
     Navigator.pop(context);
-  }
-
-  void _sendEmail(String mensagem, List<File> _listaImagens, String destinatario, String assunto) async {
-    bool result = await email.sendMessage(mensagem, _listaImagens, destinatario, assunto);
-
-    if(!mounted) return;
-
-    setState(() {
-      _text = result ? 'Enviado.' : 'Não enviado.';
-    });
+    Navigator.pop(context);
   }
 }

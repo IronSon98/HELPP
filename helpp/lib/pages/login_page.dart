@@ -74,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
               children: <Widget>[
 
                 Padding(
-                  padding: EdgeInsets.only(bottom: 32),
+                  padding: EdgeInsets.only(bottom: 36),
                   child: Image.asset(
                     "imagens/logo_03.jpg", 
                     width: 192, 

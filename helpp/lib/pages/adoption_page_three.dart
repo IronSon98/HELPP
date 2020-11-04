@@ -229,9 +229,8 @@ class _AdoptionPageThreeState extends State<AdoptionPageThree> {
                 },
               ),
 
-              SizedBox(height: 5,),
+              SizedBox(height: 22,),
 
-              
               AppButton(
                 "PUBLICAR",  
                 onPressed: _publishAdoption,
@@ -267,8 +266,6 @@ class _AdoptionPageThreeState extends State<AdoptionPageThree> {
     
     //Configura dialog context
     _dialogContext = context;
-
-    //_salvarAnuncio();
 
      _abrirDialog(_dialogContext);
 

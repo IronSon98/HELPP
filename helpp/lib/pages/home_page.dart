@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:helpp/pages/complaint_missing.dart';
 import 'package:helpp/pages/disk_complaint.dart';
 import 'package:helpp/pages/menu_animals.dart';
-import 'package:helpp/pages/menu_kids.dart';
 import 'package:helpp/pages/login_page.dart';
 import 'package:helpp/utils/nav.dart';
 
@@ -161,7 +161,7 @@ class _HomePageState extends State<HomePage> {
              
              GestureDetector(
                 onTap: () {
-                  push(context, MenuKids());
+                  push(context, ComplaintMissing());
                 },
                 child: Card(
                   child: Padding(

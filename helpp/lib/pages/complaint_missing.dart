@@ -1,21 +1,21 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:helpp/models/anuncio.dart';
-import 'package:helpp/pages/details_ads.dart';
-import 'package:helpp/pages/my_ads.dart';
+import 'package:helpp/models/desaparecidos.dart';
+import 'package:helpp/pages/details_complaint_missing.dart';
+import 'package:helpp/pages/my_complaint_missing.dart';
 import 'package:helpp/utils/config.dart';
 import 'package:helpp/utils/nav.dart';
-import 'package:helpp/widgets/item_ads.dart';
+import 'package:helpp/widgets/item_complaint_missing.dart';
 
-class AdoptionAnimals extends StatefulWidget {
+class ComplaintMissing extends StatefulWidget {
   @override
-  _AdoptionAnimalsState createState() => _AdoptionAnimalsState();
+  _ComplaintMissingState createState() => _ComplaintMissingState();
 }
 
-class _AdoptionAnimalsState extends State<AdoptionAnimals> {
+class _ComplaintMissingState extends State<ComplaintMissing> {
 
-  List<String> itensMenu = ["Meus anúncios"];
+  List<String> itensMenu = ["Minhas divulgações"];
   List<DropdownMenuItem<String>> _listaItensEstado = List();
   String _itemSelecionadoEstado;
   final _controller = StreamController<QuerySnapshot>.broadcast();
@@ -24,15 +24,15 @@ class _AdoptionAnimalsState extends State<AdoptionAnimals> {
 
     switch( itemEscolhido ){
 
-      case "Meus anúncios" :
-        push(context, MyAds());
+      case "Minhas divulgações" :
+        push(context, MyComplaintMissing());
         break;
     }
   }
 
   Future<Stream<QuerySnapshot>> _filtrarAnuncios() async {
     Firestore db = Firestore.instance;
-    Query query = db.collection("adoption_animals_public");
+    Query query = db.collection("complaint_missing_public");
 
     if(_itemSelecionadoEstado != null) {
       query = query.where("estado", isEqualTo: _itemSelecionadoEstado);
@@ -44,10 +44,10 @@ class _AdoptionAnimalsState extends State<AdoptionAnimals> {
      });
   }
 
-  Future<Stream<QuerySnapshot>> _adicionarListenerAnuncios() async {
+  Future<Stream<QuerySnapshot>> _adicionarListenerDenuncias() async {
     Firestore db = Firestore.instance;
     Stream<QuerySnapshot> stream = db
-    .collection("adoption_animals_public")
+    .collection("complaint_missing_public")
     .snapshots();
 
     stream.listen((dados) {
@@ -59,7 +59,7 @@ class _AdoptionAnimalsState extends State<AdoptionAnimals> {
   void initState() {
     super.initState();
     _listaItensEstado = Config.getEstados();
-    _adicionarListenerAnuncios();
+    _adicionarListenerDenuncias();
   }
 
   @override
@@ -67,14 +67,14 @@ class _AdoptionAnimalsState extends State<AdoptionAnimals> {
 
     var carregandoDados =  Center (
       child: Column(children: <Widget>[
-        Text("Carregando anúncios"),
+        Text("Carregando desaparecidos"),
         CircularProgressIndicator()
       ],),
     );
 
     return Scaffold(
       appBar: AppBar(
-        title:Text("ANIMAIS PARA ADOÇÃO",),
+        title:Text("DESAPARECIDOS"),
         centerTitle: true,
         actions: <Widget>[
           PopupMenuButton<String>(
@@ -140,7 +140,7 @@ class _AdoptionAnimalsState extends State<AdoptionAnimals> {
                   if(querySnapshot.documents.length == 0) {
                     return Container(
                       padding: EdgeInsets.all(25),
-                      child: Text("Nenhum anúncio disponível!", style: TextStyle(
+                      child: Text("Nenhuma divulgação encontrada!", style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold
                       ),),
@@ -152,17 +152,16 @@ class _AdoptionAnimalsState extends State<AdoptionAnimals> {
                       itemCount: querySnapshot.documents.length,
                       itemBuilder: (_, indice) {
 
-                        List<DocumentSnapshot> anuncios = querySnapshot.documents.toList();
-                        DocumentSnapshot documentSnapshot =  anuncios[indice];
-                        Anuncio anuncio = Anuncio.fromDocumentSnapshot(documentSnapshot);
+                        List<DocumentSnapshot> denuncias = querySnapshot.documents.toList();
+                        DocumentSnapshot documentSnapshot =  denuncias[indice];
+                        Desaparecidos denuncia = Desaparecidos.fromDocumentSnapshot(documentSnapshot);
 
-                        return ItemAds(
-                          anuncio: anuncio,
+                        return ItemComplaintMissing(
+                          denuncia: denuncia,
                           onTapItem: () {
-                            push(context, DetailsAds(anuncio));
+                            push(context, DetailsComplaintMissing(denuncia));
                           },
                         );
-
                       }
                     ),
                   );

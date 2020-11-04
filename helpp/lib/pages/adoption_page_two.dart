@@ -111,8 +111,7 @@ class _AdoptionPageTwoState extends State<AdoptionPageTwo> {
               sizeText: 18,
               validator: _validarEmail,
               keyboardType: TextInputType.emailAddress,
-              focusNode: _focusEmail,  
-              textInputAction: TextInputAction.next,),
+              focusNode: _focusEmail),
               
               SizedBox(height: 12,),
 
