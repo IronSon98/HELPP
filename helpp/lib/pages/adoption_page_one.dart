@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:helpp/models/animal.dart';
 import 'package:helpp/utils/config.dart';
 import 'package:helpp/widgets/app_button.dart';
@@ -68,7 +69,7 @@ class _AdoptionPageOneState extends State<AdoptionPageOne> {
                   SizedBox(height: 5),
 
                   Text(
-                        "Informações do(s) animal(is)",
+                        "Informações do animal",
                         style: TextStyle(
                           color: Color(0xFF2196F3),
                           fontSize: 18,
@@ -141,7 +142,10 @@ class _AdoptionPageOneState extends State<AdoptionPageOne> {
                   controller: _tQuantidade, 
                   sizeText: 18,
                   validator: _validarQuantidade,
-                  keyboardType: TextInputType.text,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    WhitelistingTextInputFormatter.digitsOnly,
+                  ],
                   textInputAction: TextInputAction.next, 
                   nextFocus: _focusNomeAnimal),
                   
@@ -162,6 +166,7 @@ class _AdoptionPageOneState extends State<AdoptionPageOne> {
                   "Digite a idade do animal", 
                   controller: _tIdade,
                   sizeText: 18,
+                  validator: _validarIdade,
                   keyboardType: TextInputType.number,
                   focusNode: _focusIdade,
                   textInputAction: TextInputAction.next, 
@@ -184,7 +189,6 @@ class _AdoptionPageOneState extends State<AdoptionPageOne> {
                   "Digite informações adicionais", 
                   controller: _tInformacoesAdicionais, 
                   sizeText: 18,
-                  validator: _validarInformacoesAdicionais,
                   keyboardType: TextInputType.text,
                   maxLines: null,
                   focusNode: _focusInformacoesAdicionais),
@@ -264,9 +268,12 @@ class _AdoptionPageOneState extends State<AdoptionPageOne> {
     .valido(quantidade);
   } 
 
-  String _validarInformacoesAdicionais(String informacoesAdicionais) {
-    return Validador()
-    .maxLength(300, msg: "Máximo de 300 caracteres")
-    .valido(informacoesAdicionais);
+  String _validarIdade(String idade) {
+    if(idade.length > 0)
+      return Validador()
+      .minLength(1)
+      .maxLength(2)
+      .valido(idade);
   } 
+ 
 }

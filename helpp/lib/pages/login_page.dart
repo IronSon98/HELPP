@@ -117,7 +117,7 @@ class _LoginPageState extends State<LoginPage> {
 
                 SizedBox(height: 20,),
 
-                Center(
+                /*Center(
                   child: GestureDetector(
                     child: Text(
                       "Esqueci minha senha",
@@ -130,7 +130,7 @@ class _LoginPageState extends State<LoginPage> {
 
                     },
                   ),
-                )
+                )*/
               ],
             ),
           ),

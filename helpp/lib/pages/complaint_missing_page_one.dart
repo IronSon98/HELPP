@@ -230,6 +230,7 @@ class _ComplaintMissingPageOneState extends State<ComplaintMissingPageOne> {
                   "Digite o nome do pai do desaparecido", 
                   controller: _tNomeDoPai, 
                   sizeText: 18,
+                  validator: _validarNomeDoPai,
                   keyboardType: TextInputType.text,
                   focusNode: _focusNomeDoPai,
                   textInputAction: TextInputAction.next, 
@@ -241,6 +242,7 @@ class _ComplaintMissingPageOneState extends State<ComplaintMissingPageOne> {
                   "Digite o nome da mãe do desaparecido", 
                   controller: _tNomeDaMae, 
                   sizeText: 18,
+                  validator: _validarNomedaMae,
                   keyboardType: TextInputType.text,
                   focusNode: _focusNomeDaMae,
                   textInputAction: TextInputAction.next, 
@@ -278,6 +280,9 @@ class _ComplaintMissingPageOneState extends State<ComplaintMissingPageOne> {
                   sizeText: 18,
                   validator: _validarIdade,
                   keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    WhitelistingTextInputFormatter.digitsOnly,
+                  ],
                   focusNode: _focusIdade,
                   textInputAction: TextInputAction.next, 
                   nextFocus: _focusDataDoNascimento),
@@ -418,6 +423,7 @@ class _ComplaintMissingPageOneState extends State<ComplaintMissingPageOne> {
                   "Digite a altura do desaparecido", 
                   controller: _tAltura,
                   sizeText: 18,
+                  validator: _validarAltura,
                   keyboardType: TextInputType.number,
                   inputFormatters: [
                     WhitelistingTextInputFormatter.digitsOnly,
@@ -556,6 +562,8 @@ class _ComplaintMissingPageOneState extends State<ComplaintMissingPageOne> {
   String _validarNome(String nome) {
      return Validador()
     .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+    .minLength(3)
+    .maxLength(50)
     .valido(nome);
   } 
 
@@ -571,6 +579,8 @@ class _ComplaintMissingPageOneState extends State<ComplaintMissingPageOne> {
   String _validarTelefone(String telefone) {
      return Validador()
     .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+    .minLength(14)
+    .maxLength(15)
     .valido(telefone);
   }
 
@@ -591,11 +601,31 @@ class _ComplaintMissingPageOneState extends State<ComplaintMissingPageOne> {
     return Validador()
     .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
     .valido(cidade);
+  }
+
+  String _validarNomeDoPai(String nomeDoPai) {
+    if(nomeDoPai.length > 0)
+      return Validador()
+      .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+      .minLength(3)
+      .maxLength(50)
+      .valido(nomeDoPai);
   } 
+
+  String _validarNomedaMae(String nomeDaMae) {
+    if(nomeDaMae.length > 0)
+      return Validador()
+      .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+      .minLength(3)
+      .maxLength(50)
+      .valido(nomeDaMae);
+  }  
 
   String _validarNomeDesaparecido(String nomeDesaparecido) {
      return Validador()
     .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+    .minLength(3)
+    .maxLength(50)
     .valido(nomeDesaparecido);
   } 
 
@@ -608,12 +638,16 @@ class _ComplaintMissingPageOneState extends State<ComplaintMissingPageOne> {
   String _validarIdade(String idade) {
      return Validador()
     .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+    .minLength(1)
+    .maxLength(2)
     .valido(idade);
   }
 
   String _validarDataDoNascimento(String dataDoNascimento) {
      return Validador()
     .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+    .minLength(10)
+    .maxLength(10)
     .valido(dataDoNascimento);
   }
 
@@ -638,13 +672,26 @@ class _ComplaintMissingPageOneState extends State<ComplaintMissingPageOne> {
   String _validarHoraDesaparecimento(String horaDesaparecimento) {
     return Validador()
     .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+    .minLength(5)
+    .maxLength(5)
     .valido(horaDesaparecimento);
   }  
 
   String _validarDataDesaparecimento(String dataDesaparecimento) {
     return Validador()
     .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+    .minLength(10)
+    .maxLength(10)
     .valido(dataDesaparecimento);
-  }    
+  }
+
+  String _validarAltura(String altura) {
+    if(altura.length > 0)
+      return Validador()
+      .minLength(4)
+      .maxLength(4)
+      .valido(altura);
+  }
+    
 
 }

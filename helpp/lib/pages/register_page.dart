@@ -75,18 +75,18 @@ class _RegisterPageState extends State<RegisterPage> {
 
             SizedBox(height: 5,),
 
-            AppText("Nome", 
+            AppText("Nome*", 
             "Digite o seu nome", 
             controller: _tNome, 
             sizeText: 18,
             validator: _validarNome,
-            keyboardType: TextInputType.text, 
-            textInputAction: TextInputAction.next, 
+            keyboardType: TextInputType.name, 
+            textInputAction: TextInputAction.next,
             nextFocus: _focusCPF),
             
             SizedBox(height: 12,),
 
-            AppText("CPF", 
+            AppText("CPF*", 
             "Digite o seu CPF", 
             controller: _tCPF,
             sizeText: 18, 
@@ -102,19 +102,22 @@ class _RegisterPageState extends State<RegisterPage> {
             
             SizedBox(height: 12,),
 
-            AppText("Idade", 
+            AppText("Idade*", 
             "Digite a sua idade", 
             controller: _tIdade, 
             sizeText: 18,
             validator: _validarIdade,
             keyboardType: TextInputType.number,
+            inputFormatters: [
+              WhitelistingTextInputFormatter.digitsOnly,
+            ],
             focusNode: _focusIdade,  
             textInputAction: TextInputAction.next, 
             nextFocus: _focusEmail),
             
             SizedBox(height: 12,),
 
-            AppText("E-mail", 
+            AppText("E-mail*", 
             "Digite um e-mail válido", 
             controller: _tEmail, 
             sizeText: 18,
@@ -126,7 +129,7 @@ class _RegisterPageState extends State<RegisterPage> {
             
             SizedBox(height: 12,),
 
-            AppText("Telefone", 
+            AppText("Telefone*", 
             "Digite um número de telefone para contato", 
             controller: _tTelefone,
             sizeText: 18,
@@ -142,7 +145,7 @@ class _RegisterPageState extends State<RegisterPage> {
             
             SizedBox(height: 12,),
 
-            AppText("Senha", 
+            AppText("Senha*", 
             "Digite sua senha", 
             password: true, 
             controller: _tSenha, 
@@ -212,6 +215,8 @@ class _RegisterPageState extends State<RegisterPage> {
   String _validarNome(String nome) {
     return Validador()
     .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+    .minLength(3)
+    .maxLength(50)
     .valido(nome);
   } 
   
@@ -227,6 +232,8 @@ class _RegisterPageState extends State<RegisterPage> {
   String _validarIdade(String idade) {
     return Validador()
     .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+    .minLength(1)
+    .maxLength(2)
     .valido(idade);
   } 
 
@@ -240,6 +247,8 @@ class _RegisterPageState extends State<RegisterPage> {
   String _validarTelefone(String telefone) {
     return Validador()
     .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+    .minLength(14)
+    .maxLength(15)
     .valido(telefone);
   } 
 

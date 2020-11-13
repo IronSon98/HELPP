@@ -105,7 +105,7 @@ class _AdoptionPageTwoState extends State<AdoptionPageTwo> {
               
               SizedBox(height: 12,),
 
-              AppText("Email*", 
+              AppText("E-mail*", 
               "Digite o seu e-mail", 
               controller: _tEmail, 
               sizeText: 18,
@@ -143,8 +143,8 @@ class _AdoptionPageTwoState extends State<AdoptionPageTwo> {
 
               SizedBox(height: 12,),
 
-              AppText("Cidade*", 
-              "Digite a cidade que você mora", 
+              AppText("Município*", 
+              "Digite o município que você mora", 
               controller: _tCidade, 
               sizeText: 18,
               validator: _validarCidade,
@@ -154,10 +154,11 @@ class _AdoptionPageTwoState extends State<AdoptionPageTwo> {
 
               SizedBox(height: 12,),
 
-              AppText("Whatsapp", 
+              AppText("WhatsApp", 
               "Digite seu whatsapp", 
               controller: _tWhatsapp, 
               sizeText: 18,
+              validator: _validarWhatsApp,
               keyboardType: TextInputType.number,
               inputFormatters: [
                 WhitelistingTextInputFormatter.digitsOnly,
@@ -206,12 +207,16 @@ class _AdoptionPageTwoState extends State<AdoptionPageTwo> {
   String _validarNome(String nome) {
     return Validador()
     .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+    .minLength(3)
+    .maxLength(50)
     .valido(nome);
   } 
   
   String _validarTelefone(String telefone) {
     return Validador()
     .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+    .minLength(14)
+    .maxLength(15)
     .valido(telefone);
   } 
 
@@ -232,5 +237,13 @@ class _AdoptionPageTwoState extends State<AdoptionPageTwo> {
    return Validador()
     .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
     .valido(cidade);
-  } 
+  }
+
+  String _validarWhatsApp(String whatsApp) {
+    if(whatsApp.length > 0)
+      return Validador()
+      .minLength(15)
+      .maxLength(15)
+      .valido(whatsApp);
+  }  
 }

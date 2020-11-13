@@ -121,7 +121,7 @@ class _ComplaintAnimalsPageOneState extends State<ComplaintAnimalsPageOne> {
                   SizedBox(height: 5,),
 
                   Text(
-                        "Edereço da ocorrência",
+                        "Endereço da ocorrência",
                         style: TextStyle(
                           color: Color(0xFF2196F3),
                           fontSize: 18,
@@ -211,6 +211,9 @@ class _ComplaintAnimalsPageOneState extends State<ComplaintAnimalsPageOne> {
                   sizeText: 18,
                   validator: _validarNumero,
                   keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    WhitelistingTextInputFormatter.digitsOnly,
+                  ],
                   focusNode: _focusNumero,
                   textInputAction: TextInputAction.next, 
                   nextFocus: _focusCep),
@@ -221,6 +224,7 @@ class _ComplaintAnimalsPageOneState extends State<ComplaintAnimalsPageOne> {
                   "Digite o CEP", 
                   controller: _tCep,
                   sizeText: 18,
+                  validator: _validarCEP,
                   keyboardType: TextInputType.number,
                   inputFormatters: [
                     WhitelistingTextInputFormatter.digitsOnly,
@@ -377,6 +381,9 @@ class _ComplaintAnimalsPageOneState extends State<ComplaintAnimalsPageOne> {
                   sizeText: 18,
                   validator: _validarQuantidade,
                   keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    WhitelistingTextInputFormatter.digitsOnly,
+                  ],
                   textInputAction: TextInputAction.next, 
                   nextFocus: _focusNomeDenunciante),
 
@@ -404,7 +411,7 @@ class _ComplaintAnimalsPageOneState extends State<ComplaintAnimalsPageOne> {
                   controller: _tNomeDenunciante,
                   sizeText: 18,
                   validator: _validarNomeDenunciante,
-                  keyboardType: TextInputType.text,
+                  keyboardType: TextInputType.name,
                   focusNode: _focusNomeDenunciante,
                   textInputAction: TextInputAction.next, 
                   nextFocus: _focusCpf),
@@ -510,6 +517,9 @@ class _ComplaintAnimalsPageOneState extends State<ComplaintAnimalsPageOne> {
                   sizeText: 18,
                   validator: _validarNumeroDenunciante,
                   keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    WhitelistingTextInputFormatter.digitsOnly,
+                  ],
                   focusNode: _focusNumeroDenunciante,
                   textInputAction: TextInputAction.next, 
                   nextFocus: _focusCepDenunciante),
@@ -520,6 +530,7 @@ class _ComplaintAnimalsPageOneState extends State<ComplaintAnimalsPageOne> {
                   "Digite o seu CEP", 
                   controller: _tCepDenunciante,
                   sizeText: 18,
+                  validator: _validarCepDenunciante,
                   keyboardType: TextInputType.number,
                   inputFormatters: [
                     WhitelistingTextInputFormatter.digitsOnly,
@@ -552,7 +563,8 @@ class _ComplaintAnimalsPageOneState extends State<ComplaintAnimalsPageOne> {
                   "Digite o nome do infrator", 
                   controller: _tNomeDenunciado,
                   sizeText: 18,
-                  keyboardType: TextInputType.text,
+                  validator: _validarNomeInfrator,
+                  keyboardType: TextInputType.name,
                   focusNode: _focusNomeDenunciado,
                   textInputAction: TextInputAction.next, 
                   nextFocus: _focusDescricao),
@@ -686,15 +698,27 @@ class _ComplaintAnimalsPageOneState extends State<ComplaintAnimalsPageOne> {
     .valido(numero);
   }
 
+  String _validarCEP(String cep) {
+    if(cep.length > 0)
+      return Validador()
+      .minLength(10)
+      .maxLength(10)
+      .valido(cep);
+  }
+
     String _validarDataDoFato(String dataDoFato) {
     return Validador()
     .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+    .minLength(10)
+    .maxLength(10)
     .valido(dataDoFato);
   } 
   
   String _validarHoraDoFato(String horaDoFato) {
      return Validador()
     .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+    .minLength(5)
+    .maxLength(5)
     .valido(horaDoFato);
   } 
 
@@ -731,6 +755,8 @@ class _ComplaintAnimalsPageOneState extends State<ComplaintAnimalsPageOne> {
   String _validarNomeDenunciante(String nomeDenunciante) {
      return Validador()
     .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+    .minLength(3)
+    .maxLength(50)
     .valido(nomeDenunciante);
   }
 
@@ -746,6 +772,8 @@ class _ComplaintAnimalsPageOneState extends State<ComplaintAnimalsPageOne> {
   String _validarTelefone(String telefone) {
      return Validador()
     .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+    .minLength(14)
+    .maxLength(15)
     .valido(telefone);
   }
 
@@ -778,6 +806,22 @@ class _ComplaintAnimalsPageOneState extends State<ComplaintAnimalsPageOne> {
     return Validador()
     .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
     .valido(numeroDenunciante);
+  }
+
+  String _validarCepDenunciante(String cepDenunciante) {
+    if(cepDenunciante.length > 0)
+      return Validador()
+      .minLength(10)
+      .maxLength(10)
+      .valido(cepDenunciante);
+  }
+
+   String _validarNomeInfrator(String nomeInfrator) {
+     if(nomeInfrator.length > 0)
+      return Validador()
+      .minLength(3)
+      .maxLength(50)
+      .valido(nomeInfrator);
   }
 
 }
