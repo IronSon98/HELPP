@@ -21,7 +21,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final _tCPF = TextEditingController();
   final _tIdade = TextEditingController();
   final _tEmail = TextEditingController();
-  final _tSenha =  TextEditingController();
+  final _tSenha = TextEditingController();
   final _tTelefone = TextEditingController();
 
   final _focusCPF = FocusNode();
@@ -30,18 +30,22 @@ class _RegisterPageState extends State<RegisterPage> {
   final _focusSenha = FocusNode();
   final _focusTelefone = FocusNode();
 
-   void _showErrorDialog(String mensagem) {
+  void _showErrorDialog(String mensagem) {
     showDialog(
       context: context,
-      builder: (contexto) => AlertDialog (
+      builder: (contexto) => AlertDialog(
         title: Text("ERRO"),
         content: Text(mensagem),
-        actions: <Widget> [
-          FlatButton (
+        actions: <Widget>[
+          FlatButton(
+            color: Color(0xFF2196F3),
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: Text("Fechar"),
+            child: Text(
+              "Fechar",
+              style: TextStyle(color: Colors.white),
+            ),
           )
         ],
       ),
@@ -57,10 +61,11 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:Text("HELPP",),
+        title: Text(
+          "HELPP",
+        ),
         centerTitle: true,
       ),
-      
       body: _body(),
     );
   }
@@ -68,95 +73,89 @@ class _RegisterPageState extends State<RegisterPage> {
   _body() {
     return Form(
       key: _formKey,
-      child: Container (
+      child: Container(
         padding: EdgeInsets.all(16),
         child: ListView(
           children: <Widget>[
-
-            SizedBox(height: 5,),
-
-            AppText("Nome*", 
-            "Digite o seu nome", 
-            controller: _tNome, 
-            sizeText: 18,
-            validator: _validarNome,
-            keyboardType: TextInputType.name, 
-            textInputAction: TextInputAction.next,
-            nextFocus: _focusCPF),
-            
-            SizedBox(height: 12,),
-
-            AppText("CPF*", 
-            "Digite o seu CPF", 
-            controller: _tCPF,
-            sizeText: 18, 
-            validator: _validarCPF, 
-            keyboardType: TextInputType.number,
-            inputFormatters: [
-              WhitelistingTextInputFormatter.digitsOnly,
-              CpfInputFormatter()
-            ],
-            focusNode: _focusCPF, 
-            textInputAction: TextInputAction.next, 
-            nextFocus: _focusIdade),
-            
-            SizedBox(height: 12,),
-
-            AppText("Idade*", 
-            "Digite a sua idade", 
-            controller: _tIdade, 
-            sizeText: 18,
-            validator: _validarIdade,
-            keyboardType: TextInputType.number,
-            inputFormatters: [
-              WhitelistingTextInputFormatter.digitsOnly,
-            ],
-            focusNode: _focusIdade,  
-            textInputAction: TextInputAction.next, 
-            nextFocus: _focusEmail),
-            
-            SizedBox(height: 12,),
-
-            AppText("E-mail*", 
-            "Digite um e-mail válido", 
-            controller: _tEmail, 
-            sizeText: 18,
-            validator: _validarEmail,
-            keyboardType: TextInputType.emailAddress,
-            focusNode: _focusEmail,  
-            textInputAction: TextInputAction.next, 
-            nextFocus: _focusTelefone),
-            
-            SizedBox(height: 12,),
-
-            AppText("Telefone*", 
-            "Digite um número de telefone para contato", 
-            controller: _tTelefone,
-            sizeText: 18,
-            validator: _validarTelefone,
-            keyboardType: TextInputType.number,
-            inputFormatters: [
-              WhitelistingTextInputFormatter.digitsOnly,
-              TelefoneInputFormatter()
-            ],
-            focusNode: _focusTelefone,
-            textInputAction: TextInputAction.next, 
-            nextFocus: _focusSenha),
-            
-            SizedBox(height: 12,),
-
-            AppText("Senha*", 
-            "Digite sua senha", 
-            password: true, 
-            controller: _tSenha, 
-            sizeText: 18,
-            validator: _validarSenha,
-            focusNode: _focusSenha),
-            
-            SizedBox(height: 22,),
-
+            SizedBox(
+              height: 5,
+            ),
+            AppText("Nome*", "Digite o seu nome",
+                controller: _tNome,
+                sizeText: 18,
+                validator: _validarNome,
+                keyboardType: TextInputType.name,
+                textInputAction: TextInputAction.next,
+                nextFocus: _focusCPF),
+            SizedBox(
+              height: 12,
+            ),
+            AppText("CPF*", "Digite o seu CPF",
+                controller: _tCPF,
+                sizeText: 18,
+                validator: _validarCPF,
+                keyboardType: TextInputType.number,
+                inputFormatters: [
+                  WhitelistingTextInputFormatter.digitsOnly,
+                  CpfInputFormatter()
+                ],
+                focusNode: _focusCPF,
+                textInputAction: TextInputAction.next,
+                nextFocus: _focusIdade),
+            SizedBox(
+              height: 12,
+            ),
+            AppText("Idade*", "Digite a sua idade",
+                controller: _tIdade,
+                sizeText: 18,
+                validator: _validarIdade,
+                keyboardType: TextInputType.number,
+                inputFormatters: [
+                  WhitelistingTextInputFormatter.digitsOnly,
+                ],
+                focusNode: _focusIdade,
+                textInputAction: TextInputAction.next,
+                nextFocus: _focusEmail),
+            SizedBox(
+              height: 12,
+            ),
+            AppText("E-mail*", "Digite um e-mail válido",
+                controller: _tEmail,
+                sizeText: 18,
+                validator: _validarEmail,
+                keyboardType: TextInputType.emailAddress,
+                focusNode: _focusEmail,
+                textInputAction: TextInputAction.next,
+                nextFocus: _focusTelefone),
+            SizedBox(
+              height: 12,
+            ),
+            AppText("Telefone*", "Digite um número de telefone para contato",
+                controller: _tTelefone,
+                sizeText: 18,
+                validator: _validarTelefone,
+                keyboardType: TextInputType.number,
+                inputFormatters: [
+                  WhitelistingTextInputFormatter.digitsOnly,
+                  TelefoneInputFormatter()
+                ],
+                focusNode: _focusTelefone,
+                textInputAction: TextInputAction.next,
+                nextFocus: _focusSenha),
+            SizedBox(
+              height: 12,
+            ),
+            AppText("Senha*", "Digite sua senha",
+                password: true,
+                controller: _tSenha,
+                sizeText: 18,
+                validator: _validarSenha,
+                focusNode: _focusSenha),
+            SizedBox(
+              height: 22,
+            ),
             AppButton(
-              "CADASTRAR", 
+              "CADASTRAR",
               onPressed: _onClickRegister,
             ),
           ],
@@ -168,95 +167,90 @@ class _RegisterPageState extends State<RegisterPage> {
   void _onClickRegister() async {
     // Validação do formulário
     bool formOk = _formKey.currentState.validate();
-    if(!formOk) {
+    if (!formOk) {
       return;
     }
 
     String nome = _tNome.text;
-    String cpf =  _tCPF.text.toString();
+    String cpf = _tCPF.text.toString();
     String idade = _tIdade.text;
     String email = _tEmail.text;
     String telefone = _tTelefone.text.toString();
     String senha = _tSenha.text;
     String _mensagemErro = "";
-    
+
     Firestore db = Firestore.instance;
 
-    db.collection("users")
-    .document(cpf)
-    .setData(
-      {
-        "nome" : nome, 
-        "idade" : idade,
-        "email" : email,
-        "telefone" : telefone,
-        "senha" : senha
-      }
-    );
+    db.collection("users").document(cpf).setData({
+      "nome": nome,
+      "idade": idade,
+      "email": email,
+      "telefone": telefone,
+      "senha": senha
+    });
 
     FirebaseAuth auth = FirebaseAuth.instance;
 
-    auth.createUserWithEmailAndPassword(
-      email: email, password: senha
-      ).then((firebaseUser){
-        setState(() {
-          _mensagemErro = "Cadastro realizado com sucesso!";
-          push(context, HomePage()); //Realiza o login
-        });
-      }).catchError((erro){
-        setState(() {
-          _showErrorDialog("Falha ao realizar o cadastro!");
-          _mensagemErro = erro.toString();
-        });
+    auth
+        .createUserWithEmailAndPassword(email: email, password: senha)
+        .then((firebaseUser) {
+      setState(() {
+        _mensagemErro = "Cadastro realizado com sucesso!";
+        push(context, HomePage()); //Realiza o login
       });
+    }).catchError((erro) {
+      setState(() {
+        _showErrorDialog("Falha ao realizar o cadastro!");
+        _mensagemErro = erro.toString();
+      });
+    });
   }
 
-  
   String _validarNome(String nome) {
     return Validador()
-    .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
-    .minLength(3)
-    .maxLength(50)
-    .valido(nome);
-  } 
-  
+        .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+        .minLength(3)
+        .maxLength(50)
+        .valido(nome);
+  }
+
   String _validarCPF(String cpf) {
     return Validador()
-    .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
-    .add(Validar.CPF, msg: "CPF inválido")
-    .minLength(14)
-    .maxLength(14)
-    .valido(cpf);
-  } 
+        .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+        .add(Validar.CPF, msg: "CPF inválido")
+        .minLength(14)
+        .maxLength(14)
+        .valido(cpf);
+  }
 
   String _validarIdade(String idade) {
     return Validador()
-    .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
-    .minLength(1)
-    .maxLength(2)
-    .valido(idade);
-  } 
+        .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+        .minLength(1)
+        .maxLength(2)
+        .valido(idade);
+  }
 
   String _validarEmail(String email) {
-   return Validador()
-    .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
-    .add(Validar.EMAIL, msg: "E-mail inválido")
-    .valido(email);
-  } 
+    return Validador()
+        .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+        .add(Validar.EMAIL, msg: "E-mail inválido")
+        .valido(email);
+  }
 
   String _validarTelefone(String telefone) {
     return Validador()
-    .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
-    .minLength(14)
-    .maxLength(15)
-    .valido(telefone);
-  } 
+        .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+        .minLength(14)
+        .maxLength(15)
+        .valido(telefone);
+  }
 
-   String _validarSenha(String senha) {
+  String _validarSenha(String senha) {
     return Validador()
-    .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
-    .minLength(8)
-    .maxLength(16)
-    .valido(senha);
-  } 
+        .add(Validar.OBRIGATORIO, msg: "Campo obrigatório")
+        .minLength(8)
+        .maxLength(16)
+        .valido(senha);
+  }
 }
